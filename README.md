@@ -1,6 +1,6 @@
 # BETL (BPU-Education, Transport, Lidar), pronounced "Beetle"
 
-![Beetle concept](media/Screenshot 2026-06-27 165734.png)
+![Render](media/current_render.png)
 
 A scratch-built, bio-inspired expressive lidar mobile robot on the **RDK X5**, built for the
 **Robotics Dream Keeper Challenge** (D-Robotics, 2026). It drives, builds 2D occupancy
