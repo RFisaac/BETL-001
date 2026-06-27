@@ -62,7 +62,7 @@ cad/             Frame, Y-horn, cheese plate, wheel scans
 
 ## Follow the build
 
-- **YouTube** (RustedFriend) — weekly recap build log + the Stage 3 demo
+- **YouTube** (RustedFriend) — weekly recap build log (Hopefully) + the Stage 3 demo
 - **Instagram / Threads** (RustedFriend) — visual updates
 - **Discord** — running build log
 
