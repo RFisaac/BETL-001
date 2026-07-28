@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BEETLE // SYS</title>
+<!--
+LIVE HUD — serve from the X5, view from the Deck kiosk (or any device).
+
+X5 setup (once):
+  mkdir -p ~/beetle_hud && cd ~/beetle_hud
+  cp <this file> beetle_hud.html
+  curl -LO https://cdn.jsdelivr.net/npm/roslib@1/build/roslib.min.js
+  # (vendored locally so the HUD works with no internet on robot wifi)
+
+X5 run (two terminals, after the usual tros + beetle_ws sourcing):
+  ros2 launch rosbridge_server rosbridge_websocket_launch.xml \
+    topics_glob:="['/cmd_vel','/deck_status','/wheel_status','/wheel_states','/stage_angle','/odom','/rtabmap/info','<your detection topic>']"
+  cd ~/beetle_hud && python3 -m http.server 8080
+
+Deck: beetle_deck.sh <X5_IP>  (opens http://<X5_IP>:8080/beetle_hud.html)
+
+Topic names/types live in the CONFIG block below — edit there, nowhere else.
+Every panel is defensive: wrong name or absent publisher = "NO DATA", not a
+dead page.
+-->
+<style>
+:root{
+  --amber:#FFB000;
+  --amber-hi:#FFD37A;
+  --amber-mid:rgba(255,176,0,.55);
+  --amber-dim:rgba(255,176,0,.28);
+  --amber-ghost:rgba(255,176,0,.10);
+  --red:#FF5A2B;
+  --bg:#0A0704;
+  --grid:rgba(255,176,0,.055);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:var(--bg);
+  color:var(--amber);
+  font-family:"IBM Plex Mono","SFMono-Regular",Menlo,Consolas,monospace;
+  font-size:19px;
+  font-weight:700;
+  line-height:1.4;
+  overflow:hidden;
+  letter-spacing:.03em;
+  text-shadow:0 0 4px rgba(255,176,0,.65),0 0 16px rgba(255,140,0,.28);
+  cursor:none; /* kiosk on a handheld — no pointer */
+}
+#crt{position:fixed;inset:0;display:flex;flex-direction:column}
+
+/* ---- CRT overlays ---- */
+.scan{position:fixed;inset:0;pointer-events:none;z-index:90;
+  background:repeating-linear-gradient(to bottom,rgba(0,0,0,0) 0 3px,rgba(0,0,0,.30) 3px 5px)}
+.vig{position:fixed;inset:0;pointer-events:none;z-index:91;
+  background:radial-gradient(ellipse at center,rgba(0,0,0,0) 52%,rgba(0,0,0,.72) 100%)}
+.flick{position:fixed;inset:0;pointer-events:none;z-index:92;background:rgba(255,176,0,.02);
+  animation:fl 5.5s steps(1) infinite}
+@keyframes fl{0%,97%{opacity:0}97.5%{opacity:1}98%{opacity:0}98.6%{opacity:.7}99%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.flick{display:none}}
+
+/* ---- chrome ---- */
+header,footer{flex:0 0 auto;padding:10px 18px;display:flex;gap:22px;align-items:baseline;
+  border-bottom:3px solid var(--amber-dim);white-space:nowrap;overflow:hidden;font-size:17px}
+footer{border-bottom:none;border-top:3px solid var(--amber-dim)}
+.tag{color:var(--amber-hi);font-weight:800;letter-spacing:.12em}
+.mut{color:var(--amber-mid)}
+.spacer{flex:1}
+
+main{flex:1;position:relative;overflow:hidden}
+#stage{position:absolute;inset:0}
+svg{width:100%;height:100%;display:block}
+
+/* ---- panels ---- */
+.panel{position:absolute;pointer-events:none}
+.ptitle{color:var(--amber-hi);letter-spacing:.18em;font-size:15px;font-weight:800;margin-bottom:7px;
+  border-bottom:2px solid var(--amber-dim);padding-bottom:4px}
+.row{display:flex;justify-content:space-between;gap:10px;font-size:17px;margin:2px 0}
+.row b{font-weight:800;color:var(--amber-hi)}
+.bar{font-size:19px;letter-spacing:-1px;line-height:1.1;margin:3px 0 5px}
+.warn{color:var(--red);font-weight:800;text-shadow:0 0 6px rgba(255,90,43,.9)}
+.log{font-size:15px;color:var(--amber-mid);line-height:1.6;margin-top:4px}
+.log span{color:var(--amber-hi);font-weight:800}
+.stale{opacity:.35}
+.nodata{color:var(--amber-dim);font-size:15px;letter-spacing:.1em;margin-top:4px}
+#linkdown{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;
+  background:rgba(10,7,4,.6)}
+#linkdown div{border:4px solid var(--red);color:var(--red);padding:18px 34px;font-size:26px;
+  font-weight:800;letter-spacing:.2em;background:var(--bg);
+  text-shadow:0 0 8px rgba(255,90,43,.9);animation:bl 1.2s steps(1) infinite}
+@keyframes bl{50%{opacity:.35}}
+</style>
+</head>
+<body>
+<div id="crt">
+  <header>
+    <span class="tag">BEETLE</span>
+    <span class="mut">RDK-X5 // TROS HUMBLE</span>
+    <span class="spacer"></span>
+    <span class="mut">MODE</span> <span id="mode">IDLE</span>
+    <span class="mut">UPT</span> <span id="upt">00:00:00</span>
+  </header>
+
+  <main><div id="stage">
+    <svg id="svg" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid meet"></svg>
+  </div></main>
+
+  <footer>
+    <span class="mut">LINK</span> <span id="ws">CONNECTING…</span>
+    <span class="mut">BRIDGE</span> <span id="wsurl"></span>
+    <span class="spacer"></span>
+    <span class="mut">ATT SRC</span> <span id="src">ODOM</span>
+  </footer>
+</div>
+
+<div class="scan"></div><div class="vig"></div><div class="flick"></div>
+<div id="linkdown"><div>NO LINK</div></div>
+
+<script src="./roslib.min.js"></script>
+<script>
+/* ================= CONFIG — edit topic names/types here ================= */
+const BRIDGE_PORT = 9090;
+const T = {
+  cmd:   { name:"/cmd_vel",      type:"geometry_msgs/msg/Twist",      throttle:100 },
+  deck:  { name:"/deck_status",  type:"std_msgs/msg/String",          throttle:200 },
+  stage: { name:"/stage_angle",  type:"sensor_msgs/msg/JointState",   throttle:100 },
+  odom:  { name:"/odom",         type:"nav_msgs/msg/Odometry",        throttle:100 },
+  slam:  { name:"/rtabmap/info", type:"rtabmap_msgs/msg/Info",        throttle:1000 },
+  wheels:{ name:"/wheel_status", type:"std_msgs/msg/String",          throttle:250 },
+  det:   { name:"/hobot_dnn_detection", // <-- set to your YOLO node's topic
+           type:"ai_msgs/msg/PerceptionTargets", throttle:250 },
+};
+const STALE_S = 2.0;   // per-topic: no message for this long -> NO DATA
+/* ======================================================================= */
+
+const NS="http://www.w3.org/2000/svg";
+const svg=document.getElementById("svg");
+const CX=600, CY=352, R=222;
+const el=(n,a)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);return e;};
+
+/* ========== 1. STATIC FRAME ========== */
+const g_static=el("g",{}); svg.appendChild(g_static);
+g_static.appendChild(el("circle",{cx:CX,cy:CY,r:R,fill:"none",stroke:"var(--amber)","stroke-width":4}));
+g_static.appendChild(el("circle",{cx:CX,cy:CY,r:R+11,fill:"none",stroke:"var(--amber-dim)","stroke-width":2.5}));
+g_static.appendChild(el("circle",{cx:CX,cy:CY,r:R-18,fill:"none",stroke:"var(--amber-ghost)","stroke-width":2,"stroke-dasharray":"3 9"}));
+for(let a=0;a<360;a+=5){
+  const maj=a%30===0, rad=a*Math.PI/180;
+  const r0=R+3, r1=R+(maj?14:8);
+  g_static.appendChild(el("line",{
+    x1:CX+Math.cos(rad)*r0, y1:CY+Math.sin(rad)*r0,
+    x2:CX+Math.cos(rad)*r1, y2:CY+Math.sin(rad)*r1,
+    stroke:maj?"var(--amber-mid)":"var(--amber-ghost)","stroke-width":maj?3.5:2}));
+}
+const SPOKES=[210,270,330,30,90,150];
+SPOKES.forEach(a=>{
+  const rad=a*Math.PI/180;
+  const x1=CX+Math.cos(rad)*(R+11), y1=CY+Math.sin(rad)*(R+11);
+  const x2=CX+Math.cos(rad)*(R+112), y2=CY+Math.sin(rad)*(R+112);
+  g_static.appendChild(el("line",{x1,y1,x2,y2,stroke:"var(--amber-dim)","stroke-width":3}));
+  const hx = x2 < CX ? 34 : 1166;
+  g_static.appendChild(el("line",{x1:x2,y1:y2,x2:hx,y2:y2,stroke:"var(--amber-dim)","stroke-width":3}));
+  g_static.appendChild(el("circle",{cx:x1,cy:y1,r:6,fill:"var(--amber)"}));
+});
+
+/* ========== 2. WIREFRAME BEETLE (unchanged from the mock) ========== */
+const L=.30, W=.24, H=.10, WR=.085;
+const seg=[];
+const box=(cx,cy,cz,hx,hy,hz,c)=>{
+  const p=[];
+  for(const sx of[-1,1])for(const sy of[-1,1])for(const sz of[-1,1])
+    p.push([cx+sx*hx,cy+sy*hy,cz+sz*hz]);
+  const E=[[0,1],[0,2],[0,4],[1,3],[1,5],[2,3],[2,6],[3,7],[4,5],[4,6],[5,7],[6,7]];
+  E.forEach(([a,b])=>seg.push([p[a],p[b],c]));
+};
+box(0,0,0,L,W,H,"hull");
+seg.push([[-L,-W,H],[L,W,H],"faint"],[[-L,W,H],[L,-W,H],"faint"]);
+box(.02,0,H+.03,.20,.17,.005,"faint");
+
+const MOD=[[ L-.06,  W-.02],[ L-.06, -(W-.02)],[-(L-.06), W-.02],[-(L-.06),-(W-.02)]];
+const wheelSegs=(mx,my,steerDeg)=>{
+  const s=steerDeg*Math.PI/180, out=[];
+  const P=(ang,off)=>{
+    const lx=Math.cos(ang)*WR, lz=Math.sin(ang)*WR;
+    return [mx+lx*Math.cos(s)-off*Math.sin(s), my+lx*Math.sin(s)+off*Math.cos(s), -H+WR*0+lz];
+  };
+  for(let i=0;i<8;i++){
+    const a0=i/8*2*Math.PI, a1=(i+1)/8*2*Math.PI;
+    out.push([P(a0,-.022),P(a1,-.022),"wheel"]);
+    out.push([P(a0, .022),P(a1, .022),"wheel"]);
+    if(i%2===0) out.push([P(a0,-.022),P(a0,.022),"wheel"]);
+  }
+  out.push([[mx,my,-H+WR],[mx,my,0],"faint"]);
+  out.push([[mx,my,-H+WR],[mx+Math.cos(s)*.10,my+Math.sin(s)*.10,-H+WR],"head"]);
+  return out;
+};
+
+const STAGE_Z=H+.030, OFFSET=.030;
+function lidarSegs(spin){
+  const out=[], cs=Math.cos(spin), sn=Math.sin(spin);
+  const S=(x,y,z)=>[x*cs-y*sn, x*sn+y*cs, z];
+  out.push([[0,0,H],[0,0,STAGE_Z],"faint"]);
+  const BR=.062, M=10;
+  for(let i=0;i<M;i++){
+    const a0=i/M*2*Math.PI, a1=(i+1)/M*2*Math.PI;
+    out.push([S(Math.cos(a0)*BR,Math.sin(a0)*BR,STAGE_Z),
+              S(Math.cos(a1)*BR,Math.sin(a1)*BR,STAGE_Z),"faint"]);
+  }
+  const bx=.052, by=.006, bz=.055, bcz=STAGE_Z+bz;
+  const c=[];
+  for(const sx of[-1,1])for(const sy of[-1,1])for(const sz of[-1,1])
+    c.push(S(sx*bx, sy*by, bcz+sz*bz));
+  [[0,1],[0,2],[0,4],[1,3],[1,5],[2,3],[2,6],[3,7],[4,5],[4,6],[5,7],[6,7]]
+    .forEach(([a,b])=>out.push([c[a],c[b],"lidar"]));
+  const CR=.040, CH=.026, N=12, CZ=bcz+.012;
+  const ring=(k)=>{
+    const r=[];
+    for(let i=0;i<N;i++){
+      const a=i/N*2*Math.PI;
+      r.push(S(OFFSET+Math.cos(a)*CR, k*CH, CZ+Math.sin(a)*CR));
+    }
+    return r;
+  };
+  const r0=ring(-1), r1=ring(1);
+  for(let i=0;i<N;i++){
+    out.push([r0[i],r0[(i+1)%N],"lidar"]);
+    out.push([r1[i],r1[(i+1)%N],"lidar"]);
+    if(i%3===0) out.push([r0[i],r1[i],"lidar"]);
+  }
+  out.push([S(OFFSET,-CH,CZ),S(OFFSET,CH,CZ),"faint"]);
+  out.push([r0[0],r1[0],"head"]);
+  out.push([S(OFFSET,0,CZ),S(OFFSET+CR*1.5,0,CZ),"head"]);
+  return out;
+}
+
+const HD_X=L+.058, HD_Z=.030, hx_=.062, hy_=.086, hz_=.066;
+box(HD_X,0,HD_Z,hx_,hy_,hz_,"headbox");
+seg.push([[L,-hy_*.7,HD_Z+hz_*.45],[HD_X-hx_,-hy_*.7,HD_Z+hz_*.45],"faint"]);
+seg.push([[L, hy_*.7,HD_Z+hz_*.45],[HD_X-hx_, hy_*.7,HD_Z+hz_*.45],"faint"]);
+seg.push([[L,-hy_*.7,HD_Z-hz_*.45],[HD_X-hx_,-hy_*.7,HD_Z-hz_*.45],"faint"]);
+seg.push([[L, hy_*.7,HD_Z-hz_*.45],[HD_X-hx_, hy_*.7,HD_Z-hz_*.45],"faint"]);
+const HB_X=HD_X, HB_Z=HD_Z-hz_;
+const horn=[
+  [[HB_X,0,HB_Z],[HB_X+.10,0,HB_Z-.030],"horn"],
+  [[HB_X+.10,0,HB_Z-.030],[HB_X+.23,.105,HB_Z-.012],"horn"],
+  [[HB_X+.10,0,HB_Z-.030],[HB_X+.23,-.105,HB_Z-.012],"horn"],
+  [[HB_X,0,HB_Z-.018],[HB_X+.10,0,HB_Z-.048],"horn"],
+  [[HB_X+.10,0,HB_Z-.048],[HB_X+.23,.105,HB_Z-.030],"horn"],
+  [[HB_X+.10,0,HB_Z-.048],[HB_X+.23,-.105,HB_Z-.030],"horn"],
+  [[HB_X+.23,.105,HB_Z-.012],[HB_X+.23,.105,HB_Z-.030],"horn"],
+  [[HB_X+.23,-.105,HB_Z-.012],[HB_X+.23,-.105,HB_Z-.030],"horn"],
+  [[HB_X,0,HB_Z],[HB_X,0,HB_Z-.018],"horn"],
+];
+
+/* --- projection --- */
+const ISO_YAW=Math.PI/4, ISO_PITCH=-Math.asin(Math.tan(Math.PI/6));
+const YAW0=Math.PI;
+let att={roll:0,pitch:0,yaw:0,lean:0};
+let view={roll:0,pitch:0,yaw:0,lean:0};
+function rot(p,r,pi,y){
+  let [x,yy,z]=p;
+  let t=yy*Math.cos(r)-z*Math.sin(r); z=yy*Math.sin(r)+z*Math.cos(r); yy=t;
+  t=x*Math.cos(pi)+z*Math.sin(pi); z=-x*Math.sin(pi)+z*Math.cos(pi); x=t;
+  t=x*Math.cos(y)-yy*Math.sin(y); yy=x*Math.sin(y)+yy*Math.cos(y); x=t;
+  return [x,yy,z];
+}
+const SCALE=300;
+function project(p){
+  let q=rot(p,view.roll+view.lean,view.pitch,view.yaw+YAW0);
+  q=rot(q,0,ISO_PITCH,ISO_YAW);
+  return [CX+q[1]*SCALE, CY-q[2]*SCALE];
+}
+const g_model=el("g",{}); svg.appendChild(g_model);
+const STROKE={hull:["var(--amber)",2.6],wheel:["var(--amber-mid)",2.0],
+  faint:["var(--amber-dim)",1.8],head:["var(--amber-hi)",3.0],
+  headbox:["var(--amber)",2.9],
+  lidar:["var(--amber-mid)",2.2],horn:["var(--amber-hi)",5.2]};
+let steer=[0,0,0,0], lidarSpin=0;
+function drawModel(){
+  g_model.textContent="";
+  let all=[...seg,...lidarSegs(lidarSpin),...horn];
+  MOD.forEach((m,i)=>all.push(...wheelSegs(m[0],m[1],steer[i])));
+  all.forEach(([a,b,c])=>{
+    const p0=project(a),p1=project(b),s=STROKE[c]||STROKE.faint;
+    g_model.appendChild(el("line",{x1:p0[0].toFixed(1),y1:p0[1].toFixed(1),
+      x2:p1[0].toFixed(1),y2:p1[1].toFixed(1),stroke:s[0],"stroke-width":s[1],
+      "stroke-linecap":"round"}));
+  });
+  const hr=-(view.roll+view.lean), hy=view.pitch*180;
+  const hx=Math.cos(hr)*(R-30), hyv=Math.sin(hr)*(R-30);
+  g_model.appendChild(el("line",{x1:CX-hx,y1:CY-hyv+hy,x2:CX+hx,y2:CY+hyv+hy,
+    stroke:"var(--amber-ghost)","stroke-width":2,"stroke-dasharray":"8 10"}));
+}
+const defs=el("defs",{});
+const cp=el("clipPath",{id:"vp"}); cp.appendChild(el("circle",{cx:CX,cy:CY,r:R-1}));
+defs.appendChild(cp); svg.insertBefore(defs,svg.firstChild);
+g_model.setAttribute("clip-path","url(#vp)");
+
+/* ========== 3. SECTOR PANELS ========== */
+const stage=document.getElementById("stage");
+const PANELS=[
+  {id:"lnk", a:210, t:"LINK",      w:250},
+  {id:"att", a:270, t:"ATTITUDE",  w:250},
+  {id:"slm", a:330, t:"SLAM",      w:250},
+  {id:"drv", a:30,  t:"DRIVE",     w:250},
+  {id:"det", a:90,  t:"DETECTION", w:250},
+  {id:"stg", a:150, t:"SCAN STAGE",w:250},
+];
+PANELS.forEach(p=>{
+  const d=document.createElement("div");
+  d.className="panel"; d.id=p.id;
+  const rad=p.a*Math.PI/180;
+  const vx=(CX+Math.cos(rad)*(R+128))/1200, vy=(CY+Math.sin(rad)*(R+118))/700;
+  d.style.left = vx<.5 ? "1.6%" : "auto";
+  d.style.right= vx<.5 ? "auto" : "1.6%";
+  d.style.top  = (vy*100-6)+"%";
+  d.style.width=p.w+"px";
+  d.innerHTML=`<div class="ptitle">${p.t}</div><div class="body"></div>`;
+  stage.appendChild(d);
+});
+const body=id=>document.querySelector("#"+id+" .body");
+const bar=(v,n=10)=>{v=Math.max(0,Math.min(1,v));const f=Math.round(v*n);
+  return "█".repeat(f)+"░".repeat(n-f);};
+
+/* ========== 4. LIVE TELEMETRY (rosbridge) ========== */
+const state={
+  cmd:{vx:0,wz:0}, deck:{deadman:false}, wheels:{},
+  odomYaw:0, odomRoll:0, odomPitch:0, odomV:0,
+  stageAngle:0, stageRadS:0,
+  slam:{nodes:0, loops:0},
+  detLog:[], detFps:0, _detCount:0,
+};
+const lastMsg={}, rates={}, counts={};
+Object.keys(T).forEach(k=>{lastMsg[k]=0; rates[k]=0; counts[k]=0;});
+const fresh=k=>(performance.now()-lastMsg[k])/1000 < STALE_S && lastMsg[k]>0;
+const mark=k=>{lastMsg[k]=performance.now(); counts[k]++;};
+
+const wsUrl=`ws://${location.hostname}:${BRIDGE_PORT}`;
+document.getElementById("wsurl").textContent=wsUrl;
+let ros=null, connected=false;
+function connect(){
+  ros=new ROSLIB.Ros({url:wsUrl});
+  ros.on("connection",()=>{connected=true; subscribeAll();});
+  ros.on("error",()=>{});
+  ros.on("close",()=>{connected=false; setTimeout(connect,2000);});
+}
+function sub(key,cb){
+  const t=new ROSLIB.Topic({ros, name:T[key].name, messageType:T[key].type,
+    throttle_rate:T[key].throttle, queue_size:1});
+  t.subscribe(m=>{try{cb(m);}catch(e){console.warn(key,e);} mark(key);});
+}
+function subscribeAll(){
+  sub("cmd", m=>{state.cmd.vx=m.linear.x; state.cmd.wz=m.angular.z;});
+  sub("deck", m=>{try{state.deck=JSON.parse(m.data);}catch(e){}});
+  sub("wheels", m=>{try{state.wheels=JSON.parse(m.data);}catch(e){}});
+  sub("stage", m=>{
+    if(m.position&&m.position.length){state.stageAngle=m.position[0];}
+    if(m.velocity&&m.velocity.length){state.stageRadS=m.velocity[0];}
+  });
+  sub("odom", m=>{
+    const q=m.pose.pose.orientation;
+    // quaternion -> rpy (ZYX)
+    state.odomRoll = Math.atan2(2*(q.w*q.x+q.y*q.z),1-2*(q.x*q.x+q.y*q.y));
+    state.odomPitch= Math.asin(Math.max(-1,Math.min(1,2*(q.w*q.y-q.z*q.x))));
+    state.odomYaw  = Math.atan2(2*(q.w*q.z+q.x*q.y),1-2*(q.y*q.y+q.z*q.z));
+    const v=m.twist.twist.linear; state.odomV=Math.hypot(v.x,v.y);
+  });
+  sub("slam", m=>{
+    if(typeof m.ref_id==="number") state.slam.nodes=m.ref_id;
+    if(m.loop_closure_id>0) state.slam.loops++;
+  });
+  sub("det", m=>{
+    state._detCount++;
+    (m.targets||[]).slice(0,3).forEach(t=>{
+      const conf=t.rois&&t.rois[0]&&t.rois[0].confidence;
+      state.detLog.unshift(`${t.type||"?"} ${conf?"<span>"+(conf*100).toFixed(0)+"%</span>":""}`);
+    });
+    state.detLog=state.detLog.slice(0,5);
+  });
+}
+connect();
+
+/* per-topic Hz, once a second */
+setInterval(()=>{
+  Object.keys(T).forEach(k=>{rates[k]=counts[k]; counts[k]=0;});
+  state.detFps=rates.det; // note: throttled rate, not model FPS
+},1000);
+
+/* ========== 5. RENDER LOOP ========== */
+const t0=Date.now();
+function tick(){
+  // attitude: odom when fresh; otherwise nudge yaw from commanded wz so the
+  // model still answers the sticks before SLAM is up
+  if(fresh("odom")){
+    att.roll=state.odomRoll; att.pitch=state.odomPitch; att.yaw=state.odomYaw;
+    document.getElementById("src").textContent="ODOM";
+  }else if(fresh("cmd")){
+    att.yaw+=state.cmd.wz*(1/30);
+    att.roll=0; att.pitch=0;
+    document.getElementById("src").textContent="CMD (DR)";
+  }
+  att.lean=-state.cmd.wz*0.08;   // little cornering lean off the command
+  const k=.10;
+  for(const key of["roll","pitch","yaw","lean"]) view[key]+=(att[key]-view[key])*k;
+
+  // lidar stage: real angle when fresh, else keep last
+  if(fresh("stage")) lidarSpin=state.stageAngle;
+
+  drawModel();
+  paint();
+  requestAnimationFrame(tick);
+}
+
+function paint(){
+  const d=v=>v*180/Math.PI;
+  const hh=Math.floor((Date.now()-t0)/3600000),mm=Math.floor((Date.now()-t0)/60000)%60,
+        ss=Math.floor((Date.now()-t0)/1000)%60;
+  document.getElementById("upt").textContent=
+    `${String(hh).padStart(2,"0")}:${String(mm).padStart(2,"0")}:${String(ss).padStart(2,"0")}`;
+  document.getElementById("ws").textContent=connected?"OK":"DOWN";
+  document.getElementById("ws").className=connected?"":"warn";
+  document.getElementById("linkdown").style.display=connected?"none":"flex";
+  document.getElementById("mode").textContent=
+    state.deck.deadman&&fresh("deck")?"DRIVE":"IDLE";
+
+  const set=(id,key,html)=>{
+    const b=body(id);
+    b.parentElement.classList.toggle("stale",!fresh(key));
+    b.innerHTML=fresh(key)?html:`<div class="nodata">— NO DATA —</div>`;
+  };
+
+  const WNAMES={left_front:"LF",right_front:"RF",left_rear:"LR",right_rear:"RR"};
+  const wheelRows=Object.keys(WNAMES).map(k=>{
+    const w=state.wheels[k];
+    if(!w||!fresh("wheels")) return `<div class="row"><span>${WNAMES[k]}</span><b>—</b></div>`;
+    const bad=w.fault;
+    return `<div class="row"><span>${WNAMES[k]}${bad?" ▲":""}</span>`+
+      `<b class="${bad?"warn":""}">${bad?(w.err||"FAULT")
+        :w.cmd.toFixed(1)+"→"+w.vel.toFixed(1)+" t/s"}</b></div>`;
+  }).join("");
+  set("drv","cmd",
+    `<div class="row"><span>DEADMAN</span><b class="${state.deck.deadman?"":"warn"}">${
+       state.deck.deadman?"HELD":"OPEN"}</b></div>
+     <div class="row"><span>CMD</span><b>${state.cmd.vx.toFixed(2)} m/s · ${
+       state.cmd.wz.toFixed(2)} r/s</b></div>
+     ${wheelRows}`);
+
+  set("att","odom",
+    `<div class="row"><span>ROLL</span><b>${d(state.odomRoll).toFixed(1)}&deg;</b></div>
+     <div class="row"><span>PITCH</span><b>${d(state.odomPitch).toFixed(1)}&deg;</b></div>
+     <div class="row"><span>YAW</span><b>${(((d(state.odomYaw)%360)+360)%360).toFixed(1)}&deg;</b></div>
+     <div class="row"><span>SPEED</span><b>${state.odomV.toFixed(2)} m/s</b></div>`);
+
+  set("slm","slam",
+    `<div class="row"><span>RTAB-MAP</span><b>LIVE</b></div>
+     <div class="row"><span>NODES</span><b>${state.slam.nodes}</b></div>
+     <div class="row"><span>LOOP CL</span><b>${state.slam.loops}</b></div>`);
+
+  set("det","det",
+    `<div class="row"><span>STREAM</span><b>${rates.det} Hz*</b></div>
+     <div class="log">${state.detLog.map(l=>"› "+l).join("<br>")||"› no detections"}</div>`);
+
+  set("stg","stage",
+    `<div class="row"><span>ANGLE</span><b>${(((d(state.stageAngle)%360)+360)%360).toFixed(0)}&deg;</b></div>
+     <div class="row"><span>RATE</span><b>${(state.stageRadS*60/(2*Math.PI)).toFixed(1)} RPM</b></div>`);
+
+  body("lnk").parentElement.classList.remove("stale");
+  body("lnk").innerHTML=Object.keys(T).map(k=>
+    `<div class="row"><span>${k.toUpperCase()}</span><b class="${fresh(k)?"":"warn"}">${
+      fresh(k)?rates[k]+" Hz":"—"}</b></div>`).join("");
+}
+tick();
+</script>
+</body>
+</html>

@@ -3,6 +3,17 @@
 *Robotics Dream Keeper Challenge — through the July 15 Stage 3 deliverable*
 *Version 1.0 — 2026-06-27*
 
+> **Status update (2026-07-28):** this roadmap is the plan as of late June — kept as-written
+> below for the historical record, not edited to match what actually shipped. The real
+> Stage 3 build diverged from it in ways that matter: skid steer stayed skid steer (swerve
+> was a later, separate design thread that didn't reach this robot), and **the mapping stack
+> is wheel+gyro dead reckoning, not `slam_toolbox` SLAM** — depth-based SLAM (RTAB-Map) was
+> tried, overloaded the CPU, and was pulled from the live chain. See
+> [`docs/architecture.md`](docs/architecture.md) for what's actually running and
+> [`docs/failure-recovery.md`](docs/failure-recovery.md) for how that decision got made.
+> Milestone checkboxes below are left exactly as last written; they were not maintained
+> day-to-day and shouldn't be read as a live status tracker.
+
 Build strategy: electronics integration is **decoupled from the welded frame**. Bring-up
 happens on a temporary "breadboard chassis" immediately, in parallel with waiting on weld
 stock; known-good subsystems transplant onto the welded frame when parts arrive (~July 3).

@@ -1,0 +1,1705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BEETLE // TUNE</title>
+<!--
+LIVE TUNING CONSOLE — serve from the X5, view from the Deck.
+
+Companion to beetle_hud.html. Same amber-phosphor CRT, but this one WRITES:
+live parameters on four nodes, plus the cloud/error services.
+
+Driving stays on deck_teleop.py over UDP. Latency and the deadman belong on a
+raw socket, not a websocket. This is a tuning surface, not a control surface.
+
+X5 setup (once):
+  mkdir -p ~/beetle_hud && cd ~/beetle_hud
+  cp <this file> beetle_console.html
+  curl -LO https://cdn.jsdelivr.net/npm/roslib@1/build/roslib.min.js
+
+X5 run:
+  ros2 launch rosbridge_server rosbridge_websocket_launch.xml \
+    topics_glob:="'[*]'" services_glob:="'[*]'" params_glob:="'[*]'"
+  cd ~/beetle_hud && python3 -m http.server 8080
+
+  The globs matter. rosbridge blocks service calls by default, and every knob
+  here is a service call to a node's set_parameters.
+
+Deck:
+  http://192.168.86.58:8080/beetle_console.html
+
+REQUIRES these node-side additions (2026-07-28):
+  scan_stage_node.py    angle_offset_deg   — live stage zero
+  odesc_tuner_node.py   max_wheel_tps live + ~/clear_errors service
+  wheel_odom_node.py    gyro_scale, learn_bias  — already live
+
+Node names and topics live in CONFIG below. Edit there, nowhere else.
+-->
+<style>
+:root{
+  --amber:#FFB000;
+  --amber-hi:#FFD37A;
+  --amber-mid:rgba(255,176,0,.55);
+  --amber-dim:rgba(255,176,0,.28);
+  --amber-ghost:rgba(255,176,0,.10);
+  --red:#FF5A2B;
+  --green:#8FE04A;
+  --bg:#0A0704;
+  --grid:rgba(255,176,0,.055);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{
+  background:var(--bg);
+  color:var(--amber);
+  font-family:"IBM Plex Mono","SFMono-Regular",Menlo,Consolas,monospace;
+  font-size:16px;
+  font-weight:700;
+  line-height:1.35;
+  letter-spacing:.03em;
+  text-shadow:0 0 4px rgba(255,176,0,.65),0 0 16px rgba(255,140,0,.28);
+  -webkit-user-select:none;user-select:none;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* ---- CRT overlays (matched to beetle_hud.html) ---- */
+.scan{position:fixed;inset:0;pointer-events:none;z-index:90;
+  background:repeating-linear-gradient(to bottom,rgba(0,0,0,0) 0 3px,rgba(0,0,0,.30) 3px 5px)}
+.vig{position:fixed;inset:0;pointer-events:none;z-index:91;
+  background:radial-gradient(ellipse at center,rgba(0,0,0,0) 52%,rgba(0,0,0,.72) 100%)}
+.flick{position:fixed;inset:0;pointer-events:none;z-index:92;background:rgba(255,176,0,.02);
+  animation:fl 5.5s steps(1) infinite}
+@keyframes fl{0%,97%{opacity:0}98%{opacity:1}99%{opacity:0}100%{opacity:.6}}
+@media (prefers-reduced-motion:reduce){.flick{animation:none;opacity:0}}
+
+#crt{position:fixed;inset:0;display:flex;flex-direction:column;
+  background-image:
+    repeating-linear-gradient(to right,var(--grid) 0 1px,transparent 1px 44px),
+    repeating-linear-gradient(to bottom,var(--grid) 0 1px,transparent 1px 44px)}
+
+/* ---- chrome ---- */
+header,footer{flex:0 0 auto;display:flex;align-items:center;gap:18px;
+  padding:8px 16px;border-bottom:3px solid var(--amber-dim)}
+footer{border-bottom:none;border-top:3px solid var(--amber-dim);gap:10px}
+h1{font-size:19px;letter-spacing:.16em;font-weight:700}
+.mut{color:var(--amber-mid);font-size:13px;letter-spacing:.12em}
+.spacer{flex:1}
+
+main{flex:1;position:relative;overflow:hidden}
+/* One tab visible at a time. Everything is laid out to FIT the Deck's
+   1280x800 without scrolling — the panels that only matter occasionally
+   live on TUNE, not in front of you while driving. */
+.tab{position:absolute;inset:0;display:none;gap:14px;padding:12px 16px}
+/* minmax(0,1fr) is load-bearing: implicit grid rows default to auto, which
+   sizes to CONTENT. A tall log then grew the row past the viewport and the
+   buttons below it went off-screen with nothing able to scroll, because .tab
+   is absolutely positioned. Capping the row at the container height makes the
+   children responsible for their own overflow instead. */
+.tab.active{display:grid;grid-auto-rows:minmax(0,1fr)}
+.tab[data-tab="drive"].active{grid-template-columns:minmax(0,360px) minmax(0,1fr)}
+.tab[data-tab="tune"].active{grid-template-columns:1fr 1fr}
+.tab[data-tab="map"].active,
+.tab[data-tab="boot"].active{grid-template-columns:1fr}
+.tab[data-tab="boot"] #boot{display:flex;position:static;background:none;
+  padding:0;inset:auto;height:100%;min-height:0}
+/* the log absorbs the slack; everything else keeps its natural height */
+#bootlog{flex:1 1 auto;min-height:0}
+#boot > :not(#bootlog){flex:0 0 auto}
+
+#tabs{display:flex;gap:6px;margin-left:6px}
+#tabs button{font-size:13px;letter-spacing:.12em;min-height:34px;min-width:0;
+  padding:4px 14px;border-width:2px}
+#tabs button.on{background:var(--amber-ghost);border-color:var(--amber);
+  color:var(--amber-hi)}
+
+.col{display:flex;flex-direction:column;gap:12px;min-height:0;overflow-y:auto}
+.panel{border:3px solid var(--amber-dim);padding:10px 12px 12px}
+.panel > h2{font-size:12px;letter-spacing:.20em;color:var(--amber-mid);
+  margin-bottom:8px;font-weight:700}
+
+/* ---- telemetry ---- */
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;color:var(--amber-mid);font-size:11px;letter-spacing:.10em;
+  font-weight:700;padding-bottom:3px}
+td{padding:2px 0;font-variant-numeric:tabular-nums}
+td.n{text-align:right}
+.bad{color:var(--red);text-shadow:0 0 6px rgba(255,90,43,.7)}
+.ok{color:var(--amber-hi)}
+.nodata{color:var(--amber-dim)}
+
+.kv{display:flex;justify-content:space-between;font-size:14px;padding:2px 0;
+  font-variant-numeric:tabular-nums}
+.kv span:first-child{color:var(--amber-mid);font-size:12px;letter-spacing:.08em}
+
+/* ---- system telemetry ---- */
+.sysrow{display:grid;grid-template-columns:38px 52px 1fr;align-items:center;
+  gap:6px;padding:1px 0}
+.sysrow .k{color:var(--amber-mid);font-size:11px;letter-spacing:.10em}
+.sysrow .v{font-size:14px;text-align:right;font-variant-numeric:tabular-nums;
+  color:var(--amber-hi)}
+.sysrow .v.hot{color:var(--red)}
+.spark{width:100%;height:24px;display:block}
+#cores{display:flex;gap:2px;height:22px;align-items:flex-end;margin:7px 0 4px}
+#cores div{flex:1;background:var(--amber-dim);min-height:1px;
+  transition:height .25s linear}
+@media (prefers-reduced-motion:reduce){#cores div{transition:none}}
+#cores div.hot{background:var(--red)}
+#sysfoot{display:flex;justify-content:space-between;color:var(--amber-mid);
+  font-size:11px;letter-spacing:.06em;padding-top:3px}
+/* ---- lidar view ---- */
+#lidarwrap{position:relative;flex:1;min-height:0}
+#cv_live{width:100%;height:100%;display:block;
+  border:2px solid var(--amber-ghost)}
+#meta_live{position:absolute;right:6px;bottom:5px;font-size:11px;
+  letter-spacing:.06em;color:var(--amber-mid);text-align:right;
+  pointer-events:none}
+#meta_map{float:right;font-size:11px;letter-spacing:.06em;
+  color:var(--amber-mid);font-weight:700}
+#zrow{display:flex;gap:6px;align-items:center;margin-top:7px}
+#zrow .lab{font-size:11px;letter-spacing:.10em;color:var(--amber-mid);
+  min-width:34px}
+#zrow button{min-width:34px;min-height:36px;padding:3px 6px;font-size:13px}
+#zrow .zval{flex:1;text-align:center;font-size:15px;border:2px solid var(--amber-dim);
+  padding:4px 0;font-variant-numeric:tabular-nums}
+
+/* ---- drive-panel indicators ---- */
+.panel > h2 .ind{float:right;display:flex;gap:5px;margin-top:-2px}
+.ind span{font-size:12px;letter-spacing:.10em;padding:2px 7px;
+  border:2px solid var(--amber-ghost);color:var(--amber-dim)}
+.ind span.on{border-color:var(--amber);color:var(--amber-hi);
+  background:var(--amber-ghost)}
+.ind span.bad{border-color:var(--red);color:var(--red)}
+
+.node{display:grid;grid-template-columns:1fr auto auto;gap:5px;align-items:center;
+  padding:3px 0;border-top:2px solid var(--amber-ghost)}
+.node:first-child{border-top:none}
+.node .nm{font-size:13px;letter-spacing:.05em;overflow:hidden;text-overflow:ellipsis}
+.node .st{font-size:10px;letter-spacing:.10em;color:var(--amber-mid);
+  padding:1px 5px;border:2px solid var(--amber-ghost)}
+.node .st.run{color:var(--amber-hi);border-color:var(--amber-dim)}
+.node .st.bad{color:var(--red);border-color:var(--red)}
+.node button{min-width:38px;min-height:38px;padding:4px 7px;font-size:13px}
+#tops{font-size:11px;color:var(--amber-mid);line-height:1.5;padding-top:5px;
+  border-top:2px solid var(--amber-ghost);margin-top:5px}
+#tops b{color:var(--amber);font-weight:700}
+
+/* ---- knobs ---- */
+.knob{border-top:2px solid var(--amber-ghost);padding-top:9px;margin-top:9px}
+.knob:first-of-type{border-top:none;padding-top:0;margin-top:0}
+.knob .lbl{display:flex;justify-content:baseline;align-items:baseline;gap:8px;margin-bottom:5px}
+.knob .lbl b{font-size:14px;letter-spacing:.10em}
+.knob .lbl i{font-style:normal;color:var(--amber-mid);font-size:11px;letter-spacing:.06em}
+.row{display:flex;align-items:stretch;gap:7px}
+.val{flex:1;display:flex;align-items:center;justify-content:center;
+  border:3px solid var(--amber-dim);font-size:26px;padding:2px 6px;
+  font-variant-numeric:tabular-nums;min-width:0}
+.val.dirty{border-color:var(--amber);color:var(--amber-hi)}
+
+button{
+  font:inherit;font-size:17px;letter-spacing:.05em;
+  background:transparent;color:var(--amber);
+  border:3px solid var(--amber-dim);
+  padding:9px 13px;min-width:52px;min-height:48px;   /* touch target */
+  text-shadow:inherit;cursor:pointer;
+}
+button:active{background:var(--amber-ghost);border-color:var(--amber)}
+button:focus-visible{outline:3px solid var(--amber-hi);outline-offset:2px}
+button[disabled]{opacity:.32;cursor:default}
+button.wide{flex:1}
+button.on{background:var(--amber-ghost);border-color:var(--amber);color:var(--amber-hi)}
+button.danger{border-color:var(--red);color:var(--red);
+  text-shadow:0 0 6px rgba(255,90,43,.6)}
+button.danger.on{background:rgba(255,90,43,.18)}
+
+/* ---- stage dial (signature) ---- */
+#dialwrap{display:flex;gap:12px;align-items:center}
+#dial{flex:0 0 172px}
+#dialnums{flex:1;min-width:0}
+
+/* ---- yaw calibration ---- */
+.calbig{font-size:34px;text-align:center;padding:6px 0;
+  font-variant-numeric:tabular-nums;color:var(--amber-hi)}
+.calsub{text-align:center;color:var(--amber-mid);font-size:12px;
+  letter-spacing:.08em;margin-bottom:8px}
+
+/* ---- log ---- */
+#log{flex:0 0 auto;height:20px;overflow:hidden;color:var(--amber-mid);
+  font-size:12px;letter-spacing:.06em;white-space:nowrap;text-overflow:ellipsis}
+
+/* ---- boot overlay: shown until rosbridge is live ---- */
+#boot{position:fixed;inset:0;z-index:95;display:none;flex-direction:column;
+  background:rgba(10,7,4,.95);padding:22px 26px;gap:12px}
+#boot.show{display:flex}
+#boot h2{font-size:22px;letter-spacing:.20em}
+#boot .state{font-size:15px;letter-spacing:.14em;color:var(--amber-mid);
+  display:flex;align-items:baseline;gap:10px}
+#boot .state b{color:var(--amber-hi)}
+#boot .state b.warn{color:var(--red)}
+#bootlog{flex:1;overflow-y:auto;border:3px solid var(--amber-dim);padding:8px 10px;
+  font-size:13px;line-height:1.45;white-space:pre-wrap;word-break:break-word;
+  color:var(--amber-mid);min-height:0;
+  /* selectable: the rest of the UI is kiosk-style, but this is the one
+     surface you will want to copy out of when something fails */
+  -webkit-user-select:text;user-select:text;cursor:text}
+#bootlog .g{color:var(--amber-hi)}
+#bootlog .b{color:var(--red)}
+#bootopts{display:flex;gap:8px;flex-wrap:wrap;align-items:stretch}
+#bootopts button{font-size:14px;min-height:44px;padding:6px 12px;min-width:0}
+#bootopts #bstart,#bootopts #bstop{font-size:16px;letter-spacing:.08em}
+#bootopts .spacer{flex:1}
+#bootopts button.blocked{border-color:var(--red);color:var(--red);opacity:.55;
+  text-decoration:line-through;cursor:not-allowed}
+#boot .actions{display:flex;gap:10px}
+#boot .actions button{flex:1;font-size:19px;min-height:60px}
+#tokrow{display:none;gap:8px}
+#tokrow.show{display:flex}
+#tok{flex:1;background:transparent;border:3px solid var(--amber-dim);
+  color:var(--amber);font:inherit;font-size:17px;padding:8px 10px}
+</style>
+</head>
+<body>
+<div class="scan"></div><div class="vig"></div><div class="flick"></div>
+
+<div id="crt">
+  <header>
+    <h1>BEETLE // TUNE</h1>
+    <span class="mut">LINK</span><span id="ws" title="show the boot panel"
+      style="cursor:pointer;text-decoration:underline dotted">CONNECTING</span>
+    <span id="tabs">
+      <button data-go="drive" class="on">DRIVE</button>
+      <button data-go="map">MAP</button>
+      <button data-go="tune">TUNE</button>
+      <button data-go="boot">BOOT</button>
+    </span>
+    <span class="spacer"></span>
+    <span id="hdr_frozen" class="bad" style="display:none"
+      title="bias learning is off — finish or cancel the yaw calibration">BIAS FROZEN</span>
+    <span class="mut">STAGE</span><span id="hdr_stage">--</span>
+    <span class="mut">YAW</span><span id="hdr_yaw">--</span>
+  </header>
+
+  <main>
+  <!-- ============ DRIVE ============ -->
+  <section class="tab" data-tab="drive">
+    <div class="col">
+<div class="panel">
+        <h2>SYSTEM</h2>
+        <div class="sysrow"><span class="k">CPU</span><span class="v" id="s_cpu">--</span>
+          <svg class="spark" id="sp_cpu" viewBox="0 0 180 24" preserveAspectRatio="none"></svg></div>
+        <div class="sysrow"><span class="k">BPU</span><span class="v" id="s_bpu">--</span>
+          <svg class="spark" id="sp_bpu" viewBox="0 0 180 24" preserveAspectRatio="none"></svg></div>
+        <div class="sysrow"><span class="k">TEMP</span><span class="v" id="s_temp">--</span>
+          <svg class="spark" id="sp_temp" viewBox="0 0 180 24" preserveAspectRatio="none"></svg></div>
+        <div class="sysrow"><span class="k">RAM</span><span class="v" id="s_mem">--</span>
+          <svg class="spark" id="sp_mem" viewBox="0 0 180 24" preserveAspectRatio="none"></svg></div>
+        <div id="cores"></div>
+        <div id="sysfoot">
+          <span>LOAD <span id="s_load">--</span></span>
+          <span id="s_freq">--</span>
+          <span>NET <span id="s_net">--</span></span>
+        </div>
+        <div id="tops">--</div>
+      </div>
+<div class="panel">
+        <!-- X5 = Deck packets arriving.  DM = deadman held.
+             Swap the DM label to a skull with  \u2620  if the font has it. -->
+        <h2>DRIVE <span class="ind"><span id="i_x5">X5</span><span id="i_dm">DM</span></span></h2>
+        <table id="wtab">
+          <thead><tr><th>WHEEL</th><th class="n">CMD</th><th class="n">VEL</th>
+            <th class="n">IQ</th><th class="n">ST</th></tr></thead>
+          <tbody id="wbody"><tr><td colspan="5" class="nodata">NO DATA</td></tr></tbody>
+        </table>
+      </div>
+<div class="panel">
+        <h2>DETECTIONS <span class="mut" id="det_rate"></span></h2>
+        <div id="det_list" class="nodata">no /beetle_detections \u2014 YOLO not running</div>
+      </div>
+
+      <div class="panel">
+        <h2>DRIVE RECOVERY</h2>
+        <div class="row">
+          <button class="wide" id="d_errs">CLEAR ERRORS</button>
+          <button class="wide" id="d_reboot">REBOOT DRIVES</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>ODOMETRY</h2>
+        <div class="kv"><span>X / Y</span><span id="od_xy">--</span></div>
+        <div class="kv"><span>YAW</span><span id="od_yaw">--</span></div>
+        <div class="kv"><span>SOURCE</span><span id="od_src">--</span></div>
+        <div class="kv"><span>GYRO BIAS</span><span id="od_bias">--</span></div>
+        <div class="row" style="margin-top:7px">
+          <button class="wide" id="od_rebias">RESET BIAS</button>
+        </div>
+      </div>
+<div class="panel">
+        <h2>STAGE</h2>
+        <div id="dialwrap">
+          <svg id="dial" viewBox="0 0 200 200"></svg>
+          <div id="dialnums">
+            <div class="kv"><span>RAW</span><span id="st_raw">--</span></div>
+            <div class="kv"><span>ZEROED</span><span id="st_zero">--</span></div>
+            <div class="kv"><span>RATE</span><span id="st_rate">--</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+<div class="panel" id="p_cam"
+           style="flex:2;display:none;flex-direction:column;min-height:0">
+        <h2>CAMERA <span class="mut" id="meta_cam"></span></h2>
+        <div style="flex:1;position:relative;min-height:0">
+          <canvas id="cv_cam" style="width:100%;height:100%;display:block;
+            border:2px solid var(--amber-ghost)"></canvas>
+        </div>
+      </div>
+
+      <div class="panel" id="p_sweep"
+           style="flex:2;display:flex;flex-direction:column;min-height:0">
+        <h2>LIDAR SWEEP</h2>
+        <div id="lidarwrap">
+          <canvas id="cv_live"></canvas>
+          <div id="meta_live"></div>
+        </div>
+        </div>
+      <div class="panel" style="flex:1;display:flex;flex-direction:column;min-height:0">
+        <h2>PLAN <span class="mut" id="meta_mini"></span></h2>
+        <div style="flex:1;position:relative;min-height:0">
+          <canvas id="cv_mini" style="width:100%;height:100%;display:block;
+            border:2px solid var(--amber-ghost)"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MAP ============ -->
+  <section class="tab" data-tab="map">
+    <div class="col" style="flex:1">
+      <div class="panel" style="flex:1;display:flex;flex-direction:column;min-height:0">
+        <h2>TOP-DOWN MAP <span class="mut" id="meta_map"></span></h2>
+        <div id="mapwrap" style="flex:1;position:relative;min-height:0">
+          <canvas id="cv_map" style="width:100%;height:100%;display:block;
+            border:2px solid var(--amber-ghost)"></canvas>
+        </div>
+        <div id="zrow">
+          <span class="lab">SLAB</span>
+          <button data-z="min" data-step="-0.1">&minus;</button>
+          <span class="zval" id="z_min">--</span>
+          <button data-z="min" data-step="0.1">+</button>
+          <span class="lab" style="text-align:center">to</span>
+          <button data-z="max" data-step="-0.1">&minus;</button>
+          <span class="zval" id="z_max">--</span>
+          <button data-z="max" data-step="0.1">+</button>
+        </div>
+      </div>
+
+      <div class="panel" style="flex:0 0 auto">
+        <h2>HEADING TUNE &mdash; clear, drive, compare, adjust</h2>
+        <div class="knob" data-knob="gyro_scale">
+          <div class="lbl"><b>GYRO GAIN</b><i>&times; &middot; wheel_odom</i></div>
+          <div class="row">
+            <button data-step="-0.01">&minus;.01</button>
+            <button data-step="-0.001">&minus;.001</button>
+            <div class="val" data-val>--</div>
+            <button data-step="0.001">+.001</button>
+            <button data-step="0.01">+.01</button>
+          </div>
+        </div>
+        <div class="row" style="margin-top:9px">
+          <button class="wide" id="m_clear">CLEAR CLOUD</button>
+          <button class="wide" id="m_save">SAVE CLOUD</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ TUNE ============ -->
+  <section class="tab" data-tab="tune">
+    <div class="col">
+<div class="panel">
+        <h2>YAW CALIBRATION — turn the robot exactly one full revolution</h2>
+        <div class="calbig" id="cal_read">MARK TO BEGIN</div>
+        <div class="calsub" id="cal_sub">measures gyro_scale directly</div>
+        <div class="row">
+          <button class="wide" id="cal_mark">MARK</button>
+          <button class="wide" id="cal_360" disabled>APPLY 360&deg;</button>
+          <button class="wide" id="cal_180" disabled>APPLY 180&deg;</button>
+          <button class="wide" id="cal_cancel">CANCEL</button>
+        </div>
+      </div>
+<div class="panel">
+        <h2>TUNING</h2>
+
+        <div class="knob" data-knob="stage_zero">
+          <div class="lbl"><b>STAGE ZERO</b><i>deg &middot; scan_stage_node</i></div>
+          <div class="row">
+            <button data-step="-5">&minus;5</button>
+            <button data-step="-0.5">&minus;&frac12;</button>
+            <div class="val" data-val>--</div>
+            <button data-step="0.5">+&frac12;</button>
+            <button data-step="5">+5</button>
+          </div>
+        </div>
+
+        <div class="knob" data-knob="gyro_scale">
+          <div class="lbl"><b>GYRO GAIN</b><i>&times; &middot; wheel_odom</i></div>
+          <div class="row">
+            <button data-step="-0.01">&minus;.01</button>
+            <button data-step="-0.001">&minus;.001</button>
+            <div class="val" data-val>--</div>
+            <button data-step="0.001">+.001</button>
+            <button data-step="0.01">+.01</button>
+          </div>
+        </div>
+
+        <div class="knob" data-knob="speed">
+          <div class="lbl"><b>SPEED CAP</b><i>turns/s &middot; odesc_tuner</i></div>
+          <div class="row">
+            <button data-step="-0.1">&minus;.1</button>
+            <button data-step="-0.05">&minus;.05</button>
+            <div class="val" data-val>--</div>
+            <button data-step="0.05">+.05</button>
+            <button data-step="0.1">+.1</button>
+          </div>
+        </div>
+
+        <div class="knob">
+          <div class="lbl"><b>TOGGLES</b><i>live</i></div>
+          <div class="row">
+            <button class="wide" id="tg_bias">BIAS LEARN</button>
+            <button class="wide" id="tg_mask">SELF-FILTER</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+<div class="panel">
+        <h2>NODES <span class="mut" id="nodemsg"></span></h2>
+        <div id="nodelist" class="nodata">supervisor not running</div>
+      </div>
+<div class="panel">
+        <h2>CLOUD &amp; DRIVES</h2>
+        <div class="row" style="margin-bottom:8px">
+          <button class="wide" id="act_clear">CLEAR CLOUD</button>
+          <button class="wide" id="act_save">SAVE CLOUD</button>
+        </div>
+        <div class="row">
+          <button class="wide" id="act_errs">CLEAR ERRORS</button>
+          <button class="wide" id="act_reboot">REBOOT DRIVES</button>
+          <button class="wide danger" id="act_estop">E-STOP</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BOOT ============ -->
+  <section class="tab" data-tab="boot"><div id="boot">
+  <h2>BEETLE // BOOT</h2>
+  <div class="state">ROBOT <b id="bstate">CHECKING</b>
+    <span id="bmeta" class="mut"></span>
+    <span class="spacer"></span><span id="bsys" class="mut"></span></div>
+  <div id="bootopts">
+    <button data-opt="--spin">STAGE SPIN</button>
+    <button data-opt="--drive-only">DRIVE ONLY</button>
+    <button data-opt="--no-cloud">NO CLOUD</button>
+    <button data-opt="--console" class="on">CONSOLE</button>
+    <button data-opt="--foxglove">FOXGLOVE</button>
+    <span class="spacer"></span>
+    <button id="bstart" style="min-width:150px">START ROBOT</button>
+    <button id="bstop" class="danger" style="min-width:100px">STOP</button>
+  </div>
+  <div id="cmdpreview" class="mut" style="font-size:12px;letter-spacing:.04em;
+    border-left:3px solid var(--amber-dim);padding-left:8px"></div>
+  <div id="tokrow">
+    <input id="tok" type="password" placeholder="control token"
+           autocomplete="off" spellcheck="false">
+  </div>
+  <div id="bootlog">waiting for the agent…</div>
+  <div class="actions">
+    <button id="busb" class="danger" style="flex:0 0 190px">USB RESET DRIVES</button>
+    <button id="bcopy">COPY LOG</button>
+    <button id="braw">FULL LOG</button>
+    <button id="bhide">HIDE</button>
+  </div>
+</div></section>
+</main>
+
+  <footer>
+    <div id="log">standby</div>
+  </footer>
+</div>
+
+
+<script src="./roslib.min.js"></script>
+<script>
+/* =================== CONFIG — edit here, nowhere else =================== */
+const BRIDGE_PORT = 9090;
+
+// ROS NODE names, which are NOT the filenames. odesc_tuner_node.py declares
+// itself as "odesc_tuner" — assuming otherwise silently broke clear_errors,
+// reboot_drives and the SPEED CAP knob, since a service call to a node that
+// does not exist just times out. Verify against `ros2 node list`, never the
+// filename.
+const NODES = {
+  stage: "/scan_stage_node",     // scan_stage_node.py  -> scan_stage_node
+  odom:  "/wheel_odom",          // wheel_odom_node.py  -> wheel_odom
+  tuner: "/odesc_tuner",         // odesc_tuner_node.py -> odesc_tuner
+  cloud: "/scan_accumulator",    // scan_accumulator_node.py -> scan_accumulator
+  view:  "/hud_view",            // hud_view_node.py    -> hud_view
+};
+
+const TOPICS = {
+  wheels: { name:"/wheel_status", type:"std_msgs/msg/String",        throttle:250 },
+  stage:  { name:"/stage_angle",  type:"sensor_msgs/msg/JointState", throttle:100 },
+  odom:   { name:"/wheel_odom",   type:"nav_msgs/msg/Odometry",      throttle:150 },
+  scan:   { name:"/scan",         type:"sensor_msgs/msg/LaserScan",  throttle:150 },
+  map:    { name:"/hud/map",      type:"std_msgs/msg/String",        throttle:900 },
+  ostat:  { name:"/wheel_odom_status", type:"std_msgs/msg/String",   throttle:900 },
+  // ~50 KB JPEG at 5 Hz = 250 KB/s. The RAW topic would be 900 KB a frame
+  // and must never be subscribed from a browser.
+  image:  { name:"/camera/camera/color/image_raw/compressed",
+            type:"sensor_msgs/msg/CompressedImage",                    throttle:200 },
+  dets:   { name:"/beetle_detections",
+            type:"ai_msgs/msg/PerceptionTargets",                      throttle:200 },
+};
+
+// Below this many seconds since the last frame, the camera counts as live and
+// takes the sweep's slot.
+const CAMERA_TIMEOUT = 3.0;
+
+// dnn_node_example reports ROIs in the MODEL's input space (640x640), not the
+// camera's (640x480). Observed: a chair at y_offset 321 + height 318 = 639,
+// which is 159 px past the bottom of a 480-tall frame; 639/(640/480) = 479,
+// exactly the image bottom. So boxes must be scaled by image/model per axis.
+const DET_SPACE = { w: 640, h: 640 };
+
+/* knob -> node + parameter + formatting + limits */
+const KNOBS = {
+  stage_zero: { node:NODES.stage, param:"angle_offset_deg", dp:1, min:-180, max:180 },
+  gyro_scale: { node:NODES.odom,  param:"gyro_scale",       dp:3, min:0.80, max:1.20 },
+  speed:      { node:NODES.tuner, param:"max_wheel_tps",    dp:2, min:0.05, max:2.00 },
+  z_min:      { node:NODES.view,  param:"z_min",            dp:2, min:-3.0, max:3.0 },
+  z_max:      { node:NODES.view,  param:"z_max",            dp:2, min:-3.0, max:3.0 },
+};
+
+const STALE_MS = 2000;
+/* ======================================================================= */
+
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const fmt = (v,d) => (v===null||v===undefined||isNaN(v)) ? "--" : Number(v).toFixed(d);
+let logTimer = null;
+function log(msg, bad){
+  const e = $("#log");
+  e.textContent = msg;
+  e.style.color = bad ? "var(--red)" : "var(--amber-mid)";
+  clearTimeout(logTimer);
+  logTimer = setTimeout(()=>{ e.textContent = "ready"; e.style.color=""; }, 6000);
+}
+
+/* ---------------- connection ---------------- */
+const HOST = location.hostname || "192.168.86.58";
+const URL  = `ws://${HOST}:${BRIDGE_PORT}`;
+let ros = null, connected = false;
+
+function connect(){
+  ros = new ROSLIB.Ros({ url: URL });
+  ros.on("connection", ()=>{
+    connected = true;
+    $("#ws").textContent = "UP";
+    $("#ws").className = "ok";
+    if(activeTab === "boot" && !bootDismissed) goTab("drive");
+    bootDismissed = false;      // a later drop should surface it again
+    log("link established — reading parameters");
+    subscribeAll();
+    readAllKnobs();
+  });
+  ros.on("close", ()=>{
+    connected = false;
+    $("#ws").textContent = "DOWN";
+    $("#ws").className = "bad";
+    if(!bootDismissed) goTab("boot");   // link lost: show what the robot says
+    setTimeout(connect, 2000);
+  });
+  ros.on("error", ()=>{ /* close handler drives reconnect */ });
+}
+
+/* ---------------- ROS 2 parameter access over rosbridge ----------------
+   ROS 2 parameters are per-node services, not a global server. roslib's
+   Param class targets ROS 1, so we call the node's own set_parameters /
+   get_parameters directly. Every field of ParameterValue must be present
+   or rosbridge's serializer rejects the message.                        */
+const P_BOOL = 1, P_DOUBLE = 3;
+
+function paramValue(type, v){
+  return {
+    type,
+    bool_value:          type===P_BOOL   ? !!v   : false,
+    integer_value:       0,
+    double_value:        type===P_DOUBLE ? +v    : 0.0,
+    string_value:        "",
+    byte_array_value:    [],
+    bool_array_value:    [],
+    integer_array_value: [],
+    double_array_value:  [],
+    string_array_value:  [],
+  };
+}
+
+function setParam(node, name, type, value, cb){
+  if(!connected) return log("no link", true);
+  const svc = new ROSLIB.Service({
+    ros, name: node + "/set_parameters",
+    serviceType: "rcl_interfaces/srv/SetParameters"
+  });
+  svc.callService(
+    new ROSLIB.ServiceRequest({ parameters:[{ name, value: paramValue(type, value) }] }),
+    res => {
+      const r = res && res.results && res.results[0];
+      if(r && r.successful === false){
+        log(`${name}: rejected — ${r.reason || "no reason given"}`, true);
+      } else {
+        log(`${name} = ${typeof value === "boolean" ? value : value}`);
+        if(cb) cb(true);
+      }
+    },
+    err => log(`${name}: ${err}`, true)
+  );
+}
+
+function getParams(node, names, cb){
+  if(!connected) return;
+  const svc = new ROSLIB.Service({
+    ros, name: node + "/get_parameters",
+    serviceType: "rcl_interfaces/srv/GetParameters"
+  });
+  svc.callService(new ROSLIB.ServiceRequest({ names }),
+    res => cb(res && res.values ? res.values : null),
+    err => log(`${node}: ${err}`, true));
+}
+
+function callTrigger(name, label){
+  if(!connected) return log("no link", true);
+  const svc = new ROSLIB.Service({ ros, name, serviceType:"std_srvs/srv/Trigger" });
+  svc.callService(new ROSLIB.ServiceRequest({}),
+    res => log(`${label}: ${res.message || (res.success ? "ok" : "failed")}`, !res.success),
+    err => log(`${label}: ${err} — does ${name.split("/")[1]} appear in `
+               + `ros2 node list?`, true));
+}
+
+/* ---------------- knob state ---------------- */
+const knobVal = { stage_zero:null, gyro_scale:null, speed:null };
+const toggles = { learn_bias:null, mask_enable:null };
+
+function paintKnob(key){
+  const k = KNOBS[key];
+  // z_min / z_max live in the LIDAR panel, not the knob rows
+  if(key === "z_min" || key === "z_max"){
+    const el = $("#" + key);
+    if(el) el.textContent = fmt(knobVal[key], k.dp);
+    return;
+  }
+  // gyro_scale is on both TUNE and MAP — update every instance
+  $$(`[data-knob="${key}"] [data-val]`).forEach(
+    el => el.textContent = fmt(knobVal[key], k.dp));
+}
+
+function nudge(key, step){
+  const k = KNOBS[key];
+  if(knobVal[key] === null) return log(`${k.param}: not read yet`, true);
+  let v = knobVal[key] + step;
+  v = Math.min(k.max, Math.max(k.min, v));
+  v = +v.toFixed(6);
+  knobVal[key] = v;
+  paintKnob(key);
+  const els = $$(`[data-knob="${key}"] [data-val]`);
+  els.forEach(e => e.classList.add("dirty"));
+  setParam(k.node, k.param, P_DOUBLE, v,
+           ()=> els.forEach(e => e.classList.remove("dirty")));
+}
+
+function readAllKnobs(){
+  for(const key in KNOBS){
+    const k = KNOBS[key];
+    getParams(k.node, [k.param], vals => {
+      if(!vals || !vals[0] || vals[0].type === 0){
+        log(`${k.param}: not found on ${k.node} — node patched?`, true);
+        return;
+      }
+      knobVal[key] = vals[0].double_value;
+      paintKnob(key);
+    });
+  }
+  getParams(NODES.odom, ["learn_bias"], v => {
+    if(v && v[0] && v[0].type !== 0){
+      toggles.learn_bias = v[0].bool_value;
+      $("#tg_bias").classList.toggle("on", toggles.learn_bias);
+    }
+  });
+  getParams(NODES.cloud, ["mask_enable"], v => {
+    if(v && v[0] && v[0].type !== 0){
+      toggles.mask_enable = v[0].bool_value;
+      $("#tg_mask").classList.toggle("on", toggles.mask_enable);
+    }
+  });
+}
+
+$$("[data-knob] button[data-step]").forEach(b => {
+  b.addEventListener("click", () => {
+    nudge(b.closest("[data-knob]").dataset.knob, parseFloat(b.dataset.step));
+  });
+});
+
+$("#tg_bias").addEventListener("click", ()=>{
+  const nv = !toggles.learn_bias;
+  setParam(NODES.odom, "learn_bias", P_BOOL, nv, ()=>{
+    toggles.learn_bias = nv;
+    $("#tg_bias").classList.toggle("on", nv);
+  });
+});
+$("#tg_mask").addEventListener("click", ()=>{
+  const nv = !toggles.mask_enable;
+  setParam(NODES.cloud, "mask_enable", P_BOOL, nv, ()=>{
+    toggles.mask_enable = nv;
+    $("#tg_mask").classList.toggle("on", nv);
+  });
+});
+
+/* ---------------- actions ---------------- */
+$("#act_clear").addEventListener("click", ()=>{
+  callTrigger(NODES.cloud + "/clear", "clear cloud");
+});
+$("#act_save").addEventListener("click", ()=>{
+  callTrigger(NODES.cloud + "/save", "save cloud");
+});
+// duplicates on the MAP tab — clear, drive, compare, adjust, without leaving
+$("#m_clear").addEventListener("click", ()=>{
+  callTrigger(NODES.cloud + "/clear", "clear cloud");
+});
+$("#m_save").addEventListener("click", ()=>{
+  callTrigger(NODES.cloud + "/save", "save cloud");
+});
+// Three tiers, escalating:
+//   clear_errors   latched faults, still on the bus
+//   reboot_drives  firmware wedged, still on the bus
+//   USB reset      fallen off the bus entirely — the tuner cannot answer a
+//                  service call at all in that state, so it goes via the agent
+function clearErrors(){ callTrigger(NODES.tuner + "/clear_errors", "clear errors"); }
+function rebootDrives(){ callTrigger(NODES.tuner + "/reboot_drives", "reboot drives"); }
+
+$("#act_errs").addEventListener("click", clearErrors);
+$("#d_errs").addEventListener("click", clearErrors);
+$("#od_rebias").addEventListener("click", ()=>{
+  callTrigger(NODES.odom + "/reset_bias", "reset gyro bias");
+});
+$("#act_reboot").addEventListener("click", rebootDrives);
+$("#d_reboot").addEventListener("click", rebootDrives);
+
+$("#busb").addEventListener("click", async ()=>{
+  $("#busb").disabled = true;
+  $("#bootlog").textContent = "resetting ODrive USB devices\u2026";
+  try{
+    const r = await api("/api/usbreset", {});
+    $("#bootlog").textContent =
+      (r.lines || [r.msg]).join("\n") +
+      "\n\nNow restart the drive node from the NODES panel on TUNE.";
+  }catch(e){
+    $("#bootlog").textContent = "usb reset failed: " + e;
+  }
+  $("#busb").disabled = false;
+});
+
+let estopped = false;
+const estopPub = () => new ROSLIB.Topic({
+  ros, name:"/estop", messageType:"std_msgs/msg/Bool" });
+$("#act_estop").addEventListener("click", ()=>{
+  if(!connected) return log("no link", true);
+  estopped = !estopped;
+  estopPub().publish(new ROSLIB.Message({ data: estopped }));
+  $("#act_estop").classList.toggle("on", estopped);
+  $("#act_estop").textContent = estopped ? "E-STOP  LATCHED" : "E-STOP";
+  log(estopped ? "E-STOP LATCHED — press again to clear" : "e-stop cleared", estopped);
+});
+
+/* ---------------- yaw calibration ----------------
+   Unwrapped yaw is accumulated from /wheel_odom so a full revolution reads
+   360, not 0. Mark, turn the robot exactly one revolution by any means, and
+   the measured sweep gives the scale directly:
+        gyro_scale_new = gyro_scale_now * (true / measured)
+   Sensitivity is linear in the angle swept, so 360 beats 180.            */
+let yawUnwrapped = 0, yawLast = null, calMark = null;
+
+function onYaw(deg){
+  if(yawLast !== null){
+    let d = deg - yawLast;
+    while(d > 180) d -= 360;
+    while(d < -180) d += 360;
+    yawUnwrapped += d;
+  }
+  yawLast = deg;
+  if(calMark !== null){
+    const swept = yawUnwrapped - calMark;
+    $("#cal_read").textContent = fmt(swept, 1) + "\u00B0";
+    $("#cal_sub").textContent = "swept since mark — stop on your reference";
+    const ok = Math.abs(swept) > 30;
+    $("#cal_360").disabled = !ok;
+    $("#cal_180").disabled = !ok;
+  }
+}
+
+$("#cal_mark").addEventListener("click", ()=>{
+  // Turning the robot without driving it means the wheels read stopped, and
+  // wheel_odom would otherwise pin yaw at zero and poison the gyro bias with
+  // the rotation. Clear learn_bias for the duration; APPLY restores it.
+  setParam(NODES.odom, "learn_bias", P_BOOL, false, ()=>{
+    toggles.learn_bias = false;
+    $("#tg_bias").classList.remove("on");
+  });
+  calMark = yawUnwrapped;
+  $("#cal_read").textContent = "0.0\u00B0";
+  $("#cal_sub").textContent =
+    "marked, bias learning paused — now turn one full revolution";
+  $("#cal_360").disabled = true;
+  $("#cal_180").disabled = true;
+  log("yaw marked — learn_bias off until you apply");
+});
+
+function applyCal(trueDeg){
+  if(calMark === null) return;
+  const swept = yawUnwrapped - calMark;
+  if(Math.abs(swept) < 30) return log("sweep too small to be meaningful", true);
+  if(knobVal.gyro_scale === null) return log("gyro_scale not read yet", true);
+  const signedTrue = trueDeg * Math.sign(swept);
+  const factor = signedTrue / swept;
+  let nv = knobVal.gyro_scale * factor;
+  nv = Math.min(KNOBS.gyro_scale.max, Math.max(KNOBS.gyro_scale.min, +nv.toFixed(6)));
+  const errPct = (Math.abs(swept) / trueDeg - 1) * 100;
+  knobVal.gyro_scale = nv;
+  paintKnob("gyro_scale");
+  setParam(NODES.odom, "gyro_scale", P_DOUBLE, nv);
+  $("#cal_sub").textContent =
+    `measured ${fmt(Math.abs(swept),1)}\u00B0 vs ${trueDeg}\u00B0 ` +
+    `(${errPct>0?"+":""}${fmt(errPct,2)}%) \u2192 gain ${fmt(nv,3)}`;
+  calMark = null;
+  $("#cal_360").disabled = true;
+  $("#cal_180").disabled = true;
+  // back to normal driving assumptions
+  setParam(NODES.odom, "learn_bias", P_BOOL, true, ()=>{
+    toggles.learn_bias = true;
+    $("#tg_bias").classList.add("on");
+  });
+}
+// MARK turns bias learning off. Without a way to undo that, an abandoned
+// calibration leaves the robot driving on a frozen bias with nothing to say so.
+$("#cal_cancel").addEventListener("click", ()=>{
+  calMark = null;
+  $("#cal_360").disabled = true;
+  $("#cal_180").disabled = true;
+  $("#cal_read").textContent = "MARK TO BEGIN";
+  $("#cal_sub").textContent = "measures gyro_scale directly";
+  setParam(NODES.odom, "learn_bias", P_BOOL, true, ()=>{
+    toggles.learn_bias = true;
+    $("#tg_bias").classList.add("on");
+  });
+  log("calibration cancelled — bias learning resumed");
+});
+
+$("#cal_360").addEventListener("click", ()=>applyCal(360));
+$("#cal_180").addEventListener("click", ()=>applyCal(180));
+
+/* ---------------- stage dial ---------------- */
+const NS = "http://www.w3.org/2000/svg";
+const dial = $("#dial");
+const mk = (n,a) => { const e=document.createElementNS(NS,n);
+  for(const k in a) e.setAttribute(k,a[k]); return e; };
+(function buildDial(){
+  dial.appendChild(mk("circle",{cx:100,cy:100,r:78,fill:"none",
+    stroke:"var(--amber)","stroke-width":3}));
+  dial.appendChild(mk("circle",{cx:100,cy:100,r:86,fill:"none",
+    stroke:"var(--amber-dim)","stroke-width":2}));
+  for(let a=0;a<360;a+=15){
+    const maj = a%90===0, r=a*Math.PI/180;
+    dial.appendChild(mk("line",{
+      x1:100+Math.cos(r)*(maj?66:72), y1:100+Math.sin(r)*(maj?66:72),
+      x2:100+Math.cos(r)*78,          y2:100+Math.sin(r)*78,
+      stroke: maj?"var(--amber-mid)":"var(--amber-ghost)","stroke-width":maj?3:2}));
+  }
+})();
+const needle = mk("line",{x1:100,y1:100,x2:100,y2:24,
+  stroke:"var(--amber-hi)","stroke-width":4});
+const zeroMk = mk("line",{x1:100,y1:14,x2:100,y2:30,
+  stroke:"var(--red)","stroke-width":4});
+dial.appendChild(needle); dial.appendChild(zeroMk);
+dial.appendChild(mk("circle",{cx:100,cy:100,r:5,fill:"var(--amber)"}));
+
+function paintDial(rawDeg){
+  const zero = knobVal.stage_zero || 0;
+  const shown = rawDeg + zero;
+  const r = (shown - 90) * Math.PI/180;
+  needle.setAttribute("x2", 100+Math.cos(r)*76);
+  needle.setAttribute("y2", 100+Math.sin(r)*76);
+  const z = (-90 + zero) * Math.PI/180;
+  zeroMk.setAttribute("x1", 100+Math.cos(z)*68);
+  zeroMk.setAttribute("y1", 100+Math.sin(z)*68);
+  zeroMk.setAttribute("x2", 100+Math.cos(z)*86);
+  zeroMk.setAttribute("y2", 100+Math.sin(z)*86);
+  $("#st_raw").textContent  = fmt(rawDeg,1)+"\u00B0";
+  $("#st_zero").textContent = fmt(((shown%360)+360)%360,1)+"\u00B0";
+  $("#hdr_stage").textContent = fmt(((shown%360)+360)%360,0)+"\u00B0";
+}
+
+/* ---------------- subscriptions ---------------- */
+const seen = {};
+
+// roslib reads options.messageType — spreading a `type` key left it undefined,
+// and subscriptions only worked because rosbridge can infer the type of a
+// topic that already exists. Fragile in general, and it fails outright for a
+// type rosbridge has to resolve itself.
+function topicOpts(t){
+  return { ros, name: t.name, messageType: t.type, throttle_rate: t.throttle };
+}
+
+function subscribeAll(){
+  new ROSLIB.Topic(topicOpts(TOPICS.wheels))
+    .subscribe(m => { seen.wheels = Date.now(); paintWheels(m.data); });
+
+  new ROSLIB.Topic(topicOpts(TOPICS.stage))
+    .subscribe(m => {
+      seen.stage = Date.now();
+      if(m.position && m.position.length){
+        stageRad = m.position[0];
+        paintDial(m.position[0] * 180/Math.PI);
+      }
+      if(m.velocity && m.velocity.length){
+        $("#st_rate").textContent = fmt(m.velocity[0],2)+" rad/s";
+      }
+    });
+
+  new ROSLIB.Topic(topicOpts(TOPICS.scan))
+    .subscribe(m => {
+      const pts = [];
+      const sp = Math.sin(stageRad), cp = Math.cos(stageRad);
+      for(let i=0; i<m.ranges.length; i++){
+        const r = m.ranges[i];
+        if(!(r > m.range_min && r < m.range_max)) continue;
+        const a = m.angle_min + i*m.angle_increment;
+        const sa = Math.sin(a), ca = Math.cos(a);
+        pts.push([-r*sa*sp, r*sa*cp, -r*ca]);
+      }
+      if(cameraLive()) return;        // sweep is hidden; do not build a trail
+      scanTrail.push(pts);
+      if(scanTrail.length > 45) scanTrail.shift();
+    });
+
+  new ROSLIB.Topic(topicOpts(TOPICS.map))
+    .subscribe(m => { try{ mapData = JSON.parse(m.data); }catch(e){} });
+
+  new ROSLIB.Topic(topicOpts(TOPICS.ostat))
+    .subscribe(m => {
+      let d; try{ d = JSON.parse(m.data); }catch(e){ return; }
+      const el = $("#od_bias");
+      // 0.0008 rad/s is this gyro's healthy figure. Anything an order of
+      // magnitude above that is a poisoned estimate, not a drifty sensor —
+      // almost always a hand rotation absorbed while learn_bias was on.
+      const bad = Math.abs(d.bias) > 0.01;
+      el.textContent = `${d.bias >= 0 ? "+" : ""}${d.bias.toFixed(5)} rad/s` +
+                       ` (${(d.bias*180/Math.PI).toFixed(2)}\u00B0/s)`;
+      el.className = bad ? "bad" : (d.n_bias >= 200 ? "ok" : "");
+      el.title = bad
+        ? "far too high — press RESET BIAS and keep the robot still"
+        : `n=${d.n_bias}, learning ${d.learn_bias ? "on" : "PAUSED"}`;
+      $("#od_src").textContent = d.yaw_src.toUpperCase() +
+        (d.learn_bias ? "" : " \u00b7 bias frozen");
+      // visible from every tab, not just this panel
+      $("#hdr_frozen").style.display = d.learn_bias ? "none" : "inline";
+    });
+
+  // rosbridge base64-encodes uint8[] in JSON mode, which is exactly what a
+  // data URL wants — no manual decode, the browser does it natively.
+  new ROSLIB.Topic(topicOpts(TOPICS.image))
+    .subscribe(m => {
+      const t = performance.now()/1000;
+      if(camLastT) camHz = 0.7*camHz + 0.3*(1/Math.max(1e-3, t - camLastT));
+      camLastT = t;
+      camBytes = (m.data.length * 3) / 4;      // base64 -> bytes
+      camN++;
+      camImg.src = "data:image/jpeg;base64," + m.data;
+    });
+
+  new ROSLIB.Topic(topicOpts(TOPICS.dets))
+    .subscribe(m => {
+      const out = [];
+      detLastT = performance.now()/1000;
+      detN++;
+      for(const t of (m.targets || [])){
+        for(const roi of (t.rois || [])){
+          if(roi.confidence < 0.25) continue;
+          out.push({ name: roi.type || t.type || "?", conf: roi.confidence,
+                     x: roi.rect.x_offset, y: roi.rect.y_offset,
+                     w: roi.rect.width,   h: roi.rect.height });
+        }
+      }
+      dets = out;
+      paintDets();
+    });
+
+  new ROSLIB.Topic(topicOpts(TOPICS.odom))
+    .subscribe(m => {
+      seen.odom = Date.now();
+      const p = m.pose.pose.position, q = m.pose.pose.orientation;
+      const yaw = Math.atan2(2*(q.w*q.z + q.x*q.y),
+                             1 - 2*(q.y*q.y + q.z*q.z)) * 180/Math.PI;
+      $("#od_xy").textContent  = fmt(p.x,2)+" / "+fmt(p.y,2)+" m";
+      $("#od_yaw").textContent = fmt(yaw,1)+"\u00B0";
+      $("#hdr_yaw").textContent = fmt(yaw,0)+"\u00B0";
+      onYaw(yaw);
+    });
+}
+
+function paintWheels(json){
+  let d; try { d = JSON.parse(json); } catch(e){ return; }
+  const tb = $("#wbody");
+  tb.innerHTML = "";
+  let anyFault = false;
+  for(const pos of ["left_front","left_rear","right_front","right_rear"]){
+    const w = d[pos]; if(!w) continue;
+    const fault = !!w.fault; anyFault = anyFault || fault;
+    const tr = document.createElement("tr");
+    tr.innerHTML =
+      `<td class="${fault?"bad":""}">${pos.replace("_"," ").toUpperCase()}</td>` +
+      `<td class="n">${fmt(w.cmd,2)}</td>` +
+      `<td class="n ${fault?"bad":""}">${fmt(w.vel,2)}</td>` +
+      `<td class="n">${w.iq===undefined?"--":fmt(w.iq,1)}</td>` +
+      `<td class="n ${fault?"bad":""}">${w.err ? w.err : (w.state===undefined?"--":w.state)}</td>`;
+    tb.appendChild(tr);
+  }
+  if(!tb.children.length)
+    tb.innerHTML = '<tr><td colspan="5" class="nodata">NO DATA</td></tr>';
+  $("#od_src").textContent = anyFault ? "FAULT" : "GYRO";
+  $("#od_src").className = anyFault ? "bad" : "";
+
+  // Deck link + deadman. Both dark when /wheel_status stops arriving, since
+  // at that point we know nothing rather than knowing they are off.
+  const lk = d.link || {};
+  const x5 = $("#i_x5"), dm = $("#i_dm");
+  x5.className = lk.up ? "on" : "bad";
+  x5.title = lk.age == null ? "no packet from the Deck yet"
+                            : `last packet ${lk.age}s ago`;
+  dm.className = lk.deadman ? "on" : "";
+  dm.title = lk.deadman ? "deadman held" : "deadman released — will not drive";
+}
+
+/* stale marking */
+setInterval(()=>{
+  const now = Date.now();
+  if(!seen.wheels || now-seen.wheels > STALE_MS){
+    $("#wbody").innerHTML = '<tr><td colspan="5" class="nodata">NO DATA</td></tr>';
+    $("#i_x5").className = "";
+    $("#i_dm").className = "";
+    $("#i_x5").title = $("#i_dm").title = "no /wheel_status — drive node down?";
+  }
+  if(!seen.stage || now-seen.stage > STALE_MS){
+    $("#st_raw").textContent = $("#st_zero").textContent =
+      $("#st_rate").textContent = $("#hdr_stage").textContent = "--";
+  }
+  if(!seen.odom || now-seen.odom > STALE_MS){
+    $("#od_xy").textContent = $("#od_yaw").textContent =
+      $("#hdr_yaw").textContent = "--";
+  }
+}, 1000);
+
+/* ---------------- boot panel: talks to beetle_agent, NOT rosbridge ----
+   This has to work before ROS exists, which is the whole point — the agent
+   serves this page from boot and can start the stack on request.        */
+// Manual dismissal. Without this the overlay is inescapable whenever
+// rosbridge is not up — which is exactly when you most want to look at the
+// rest of the UI. Sticky, or the 2 s reconnect loop would re-cover the screen.
+let bootDismissed = false;
+
+function showBoot(on){
+  bootDismissed = !on;
+  if(on) goTab("boot");
+}
+
+// HIDE just leaves the tab; the tab bar is always there to come back to.
+$("#bhide").addEventListener("click", ()=>{ bootDismissed = true; goTab("drive"); });
+$("#ws").addEventListener("click", ()=>goTab("boot"));
+
+const chosen = new Set(["--console"]);
+// --drive-only removes lidar, stage and cloud, which makes these two
+// meaningless. Turn them OFF and lock them out rather than letting the run
+// silently ignore them.
+const EXCLUDED_BY_DRIVE_ONLY = ["--spin", "--no-cloud"];
+
+function paintCmd(){
+  const driveOnly = chosen.has("--drive-only");
+  if(driveOnly) EXCLUDED_BY_DRIVE_ONLY.forEach(o => chosen.delete(o));
+
+  $$("#bootopts button[data-opt]").forEach(b=>{
+    const o = b.dataset.opt;
+    const blocked = driveOnly && EXCLUDED_BY_DRIVE_ONLY.includes(o);
+    b.classList.toggle("blocked", blocked);
+    b.classList.toggle("on", chosen.has(o));
+    b.disabled = blocked;
+    b.title = blocked ? "unavailable with DRIVE ONLY" : "";
+  });
+
+  const args = Array.from(chosen).join(" ");
+  $("#cmdpreview").textContent = "will run:  beetle_up.py " + (args || "(no options)");
+  if(driveOnly){
+    $("#cmdpreview").innerHTML +=
+      '<br><span style="color:var(--red)">DRIVE ONLY — no lidar, stage or cloud</span>';
+  }
+}
+
+// [data-opt] only — START and STOP share this row but are not toggles, and
+// without the filter a click on START would add `undefined` to the arg set
+// and paintCmd would re-enable the button pollAgent had just disabled.
+$$("#bootopts button[data-opt]").forEach(b=>{
+  b.classList.toggle("on", chosen.has(b.dataset.opt));
+  b.addEventListener("click", ()=>{
+    const o = b.dataset.opt;
+    chosen.has(o) ? chosen.delete(o) : chosen.add(o);
+    b.classList.toggle("on", chosen.has(o));
+    paintCmd();
+  });
+});
+paintCmd();
+
+async function api(path, body){
+  const opt = body
+    ? { method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify(Object.assign({token: $("#tok").value || undefined}, body)) }
+    : {};
+  const r = await fetch(path, opt);
+  return r.json();
+}
+
+const STATE_TEXT = {
+  idle:"OFFLINE", starting:"STARTING", up:"RUNNING",
+  degraded:"RUNNING (stages skipped)", failed:"FAILED"
+};
+
+let lastLineCount = -1;
+async function pollAgent(){
+  if(connected){ setTimeout(pollAgent, 2000); return; }   // ROS live, no need
+  try{
+    const s = await api("/api/status");
+    const b = $("#bstate");
+    b.textContent = STATE_TEXT[s.state] || s.state.toUpperCase();
+    b.className = (s.state === "failed") ? "warn" : "";
+    $("#bmeta").textContent = s.pid
+      ? `pid ${s.pid} · ${s.uptime}s` : (s.exit_code ? `exit ${s.exit_code}` : "");
+    $("#tokrow").classList.toggle("show", !!s.token_required);
+    $("#bstart").disabled = (s.state === "starting" || s.state === "up");
+    $("#bstop").disabled  = !s.pid;
+
+    const el = $("#bootlog");
+    if(rawMode){
+      // /api/log.txt carries up to 400 lines against the 120 in /api/status,
+      // so the full view really is fuller.
+      try{
+        el.textContent = await (await fetch("/api/log.txt")).text();
+      }catch(e){
+        el.textContent = (s.lines || []).join("\n");
+      }
+      el.scrollTop = el.scrollHeight;
+    }else if(s.lines && s.lines.length !== lastLineCount){
+      lastLineCount = s.lines.length;
+      el.innerHTML = s.lines.map(ln=>{
+        const cls = /\bFAIL\b|Traceback|error|refus/i.test(ln) ? "b"
+                  : /\bok\b|BEETLE UP/.test(ln) ? "g" : "";
+        const safe = ln.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+        return cls ? `<span class="${cls}">${safe}</span>` : safe;
+      }).join("\n");
+      el.scrollTop = el.scrollHeight;
+    }
+  }catch(e){
+    $("#bstate").textContent = "NO AGENT";
+    $("#bstate").className = "warn";
+    $("#bootlog").textContent =
+      "Cannot reach beetle_agent.py on this host.\n\n" +
+      "  systemctl status beetle-agent\n" +
+      "  python3 /userdata/beetle_agent.py --dir /root/beetle_hud";
+  }
+  setTimeout(pollAgent, 1000);
+}
+
+$("#bstart").addEventListener("click", async ()=>{
+  $("#bstart").disabled = true;
+  const r = await api("/api/start", { args: Array.from(chosen) });
+  if(!r.ok) $("#bootlog").textContent = "start refused: " + r.msg;
+});
+$("#bcopy").addEventListener("click", async ()=>{
+  const txt = $("#bootlog").innerText;
+  // navigator.clipboard needs a secure context; this is plain http to an IP,
+  // so it is usually undefined here. The textarea fallback is the one that
+  // actually fires.
+  try{
+    if(navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(txt);
+    }else{
+      const ta = document.createElement("textarea");
+      ta.value = txt;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+    }
+    $("#bcopy").textContent = "COPIED";
+    setTimeout(()=>{ $("#bcopy").textContent = "COPY LOG"; }, 1500);
+  }catch(e){
+    $("#bcopy").textContent = "USE RAW";
+    setTimeout(()=>{ $("#bcopy").textContent = "COPY LOG"; }, 2000);
+  }
+});
+
+// Toggles the log between the styled view and full plain text, IN PLACE.
+// It used to open /api/log.txt in a new tab, which is a trap under a kiosk
+// browser: no tab bar, no back button, and Ctrl+W needs a keyboard the Deck
+// does not have to hand. The endpoint still exists for curl from the laptop:
+//   curl http://<ip>:8080/api/log.txt
+let rawMode = false;
+$("#braw").addEventListener("click", ()=>{
+  rawMode = !rawMode;
+  $("#braw").textContent = rawMode ? "STYLED" : "FULL LOG";
+  $("#braw").classList.toggle("on", rawMode);
+  lastLineCount = -1;                 // force the next poll to repaint
+});
+
+$("#bstop").addEventListener("click", async ()=>{
+  const r = await api("/api/stop", {});
+  if(!r.ok) $("#bootlog").textContent = "stop refused: " + r.msg;
+});
+
+/* ---------------- node control ----------------
+   Proxied by the agent to beetle_up, which owns the processes and can re-run
+   a node's gates after restarting it. Works whether or not rosbridge is up,
+   which is the point — restarting rosbridge itself has to be possible.   */
+let nodeBusy = false;
+
+async function pollNodes(){
+  if(!nodeBusy){
+    try{
+      const r = await (await fetch("/api/nodes")).json();
+      paintNodes(r.ok ? r.nodes : null, r.ok ? "" : r.msg);
+    }catch(e){ paintNodes(null, "agent unreachable"); }
+  }
+  setTimeout(pollNodes, 2000);
+}
+
+const STATE_CLS = { running:"run", crashed:"bad", stopped:"", exited:"",
+                    check:"", done:"run", EXTERNAL:"bad" };
+
+function paintNodes(nodes, msg){
+  const el = $("#nodelist");
+  $("#nodemsg").textContent = msg || "";
+  if(!nodes){ el.className = "nodata"; el.textContent = msg || "no supervisor"; return; }
+  el.className = "";
+  el.innerHTML = "";
+  nodes.forEach(n=>{
+    const row = document.createElement("div");
+    row.className = "node";
+    const running = n.state === "running";
+    const ext = (n.external || []).length;
+    row.innerHTML =
+      `<span class="nm" title="${(n.note||"").replace(/"/g,"")}">${n.name}</span>` +
+      `<span class="st ${STATE_CLS[n.state]||""}" title="${ext ?
+         "orphan pid(s) " + n.external.join(", ") +
+         " — not started here. Stop clears it." : (n.note||"")}"
+        >${n.state.toUpperCase()}</span>`;
+    const b = document.createElement("button");
+    // an EXTERNAL row needs stop, not start — starting would give you two
+    const stopMode = running || ext;
+    b.textContent = stopMode ? "\u25A0" : "\u25B6";
+    b.title = ext ? "kill the orphan" : (running ? "stop" : "start");
+    b.addEventListener("click", ()=>nodeAction(stopMode ? "stop" : "start", n.name));
+    const r = document.createElement("button");
+    r.textContent = "\u21BB";                          // restart
+    r.title = n.state === "check" ? "re-check gates" : "restart";
+    r.addEventListener("click", ()=>nodeAction("restart", n.name));
+    const wrap = document.createElement("span");
+    wrap.style.display = "flex"; wrap.style.gap = "5px";
+    wrap.appendChild(b); wrap.appendChild(r);
+    row.appendChild(wrap);
+    el.appendChild(row);
+  });
+}
+
+async function nodeAction(action, name){
+  nodeBusy = true;
+  $("#nodemsg").textContent = `${action} ${name}…`;
+  log(`${action} ${name} — this can take a few seconds`);
+  try{
+    const r = await api("/api/node", { action, name });
+    $("#nodemsg").textContent = "";
+    log(`${name}: ${r.msg || (r.ok ? "ok" : "failed")}`, !r.ok);
+    if(r.tail) $("#bootlog").textContent = r.tail;
+  }catch(e){
+    log(`${name}: ${e}`, true);
+  }finally{
+    nodeBusy = false;
+  }
+}
+
+pollNodes();
+
+
+/* ---------------- tabs ---------------- */
+let activeTab = "drive";
+function goTab(name){
+  activeTab = name;
+  $$(".tab").forEach(t => t.classList.toggle("active", t.dataset.tab === name));
+  $$("#tabs button").forEach(b => b.classList.toggle("on", b.dataset.go === name));
+}
+$$("#tabs button").forEach(b => b.addEventListener("click", ()=>goTab(b.dataset.go)));
+goTab("drive");
+
+/* ---------------- lidar view ----------------
+   Two projections of the same sensor.
+
+   LIVE  the current /scan slice, drawn where it actually is in space. The
+         lidar is canted 90 deg so its scan plane is VERTICAL; the stage then
+         rotates that plane about the vertical axis. So a scan point at angle
+         a, range r sits at
+             X = -r sin(a) sin(phi)
+             Y =  r sin(a) cos(phi)
+             Z = -r cos(a)
+         with phi the stage angle. Drawn isometric, with a fading trail of
+         recent slices so the sweep reads as motion. Honest geometry, not a
+         decorative spinner.
+
+   MAP   the accumulated cloud from /hud/map, already sliced and thinned on
+         the robot, straight down. Walls become lines; a heading error shows
+         as the same wall twice at an angle.                              */
+const cvLive = $("#cv_live"), ctxLive = cvLive.getContext("2d");
+const cvMap  = $("#cv_map"),  ctxMap  = cvMap.getContext("2d");
+const cvMini = $("#cv_mini"), ctxMini = cvMini.getContext("2d");
+let scanTrail = [];              // recent slices, newest last
+let mapData = null;
+let stageRad = 0;
+
+function fitCanvas(cv){
+  const r = cv.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  if(cv.width !== Math.round(r.width*dpr) || cv.height !== Math.round(r.height*dpr)){
+    cv.width = Math.round(r.width*dpr);
+    cv.height = Math.round(r.height*dpr);
+  }
+  return {w:r.width, h:r.height, dpr};
+}
+
+function css(v){ return getComputedStyle(document.body).getPropertyValue(v).trim(); }
+
+function drawLive(){
+  const ctx = ctxLive;
+  const {w,h,dpr} = fitCanvas(cvLive);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,w,h);
+  if(!scanTrail.length){
+    ctx.fillStyle = css("--amber-dim");
+    ctx.font = "12px monospace";
+    ctx.fillText("waiting for /scan", 10, 20);
+    return;
+  }
+  const cx = w/2, cy = h/2 + h*0.12;
+  // scale so ~5 m of range fills the view
+  const S = Math.min(w,h) / 11.0;
+  const C30 = Math.cos(Math.PI/6), S30 = Math.sin(Math.PI/6);
+
+  // ground grid, same isometric projection, so the sweep has somewhere to sit
+  ctx.strokeStyle = css("--amber-ghost");
+  ctx.lineWidth = 1;
+  for(let g=-4; g<=4; g+=2){
+    ctx.beginPath();
+    for(let k=-4; k<=4; k+=0.5){
+      const px = cx + (g-k)*C30*S, py = cy + (g+k)*S30*S;
+      k===-4 ? ctx.moveTo(px,py) : ctx.lineTo(px,py);
+    }
+    ctx.stroke();
+    ctx.beginPath();
+    for(let k=-4; k<=4; k+=0.5){
+      const px = cx + (k-g)*C30*S, py = cy + (k+g)*S30*S;
+      k===-4 ? ctx.moveTo(px,py) : ctx.lineTo(px,py);
+    }
+    ctx.stroke();
+  }
+
+  scanTrail.forEach((slice, i)=>{
+    const age = (scanTrail.length - i) / scanTrail.length;   // 1 = oldest
+    ctx.globalAlpha = Math.max(0.05, Math.pow(1-age, 1.6));
+    ctx.fillStyle = (i === scanTrail.length-1) ? css("--amber-hi") : css("--amber");
+    const sz = (i === scanTrail.length-1) ? 2.0 : 1.3;
+    for(const p of slice){
+      const px = cx + (p[0]-p[1])*C30*S;
+      const py = cy + (p[0]+p[1])*S30*S - p[2]*S;
+      ctx.fillRect(px, py, sz, sz);
+    }
+  });
+  ctx.globalAlpha = 1;
+  $("#meta_live").textContent =
+    `stage ${(stageRad*180/Math.PI).toFixed(0)}\u00B0 \u00b7 ${scanTrail.length} slices`;
+}
+
+// Same routine for the big MAP tab and the small DRIVE plan — one code path,
+// so they can never disagree about what the cloud looks like.
+function drawMapOn(cv, ctx, metaEl){
+  const {w,h,dpr} = fitCanvas(cv);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,w,h);
+  if(!mapData || !mapData.pts.length){
+    ctx.fillStyle = css("--amber-dim");
+    ctx.font = "12px monospace";
+    ctx.fillText(mapData ? "no points in this slab \u2014 widen it"
+                         : "waiting for /hud/map \u2014 is hud_view running?", 10, 20);
+    metaEl.textContent = "";
+    return;
+  }
+  const [x0,y0,x1,y1] = mapData.bounds;
+  const pad = 0.5;
+  const spanX = Math.max(0.5, (x1-x0)+pad*2), spanY = Math.max(0.5, (y1-y0)+pad*2);
+  const S = Math.min(w/spanX, h/spanY);
+  const midX = (x0+x1)/2, midY = (y0+y1)/2;
+  // ROS x forward / y left -> screen x right / y up
+  const X = m => w/2 + (m - midX)*S;
+  const Y = m => h/2 - (m - midY)*S;
+
+  ctx.strokeStyle = css("--amber-ghost");
+  ctx.lineWidth = 1;
+  for(let g=Math.ceil(x0-pad); g<=x1+pad; g++){
+    ctx.beginPath(); ctx.moveTo(X(g),0); ctx.lineTo(X(g),h); ctx.stroke();
+  }
+  for(let g=Math.ceil(y0-pad); g<=y1+pad; g++){
+    ctx.beginPath(); ctx.moveTo(0,Y(g)); ctx.lineTo(w,Y(g)); ctx.stroke();
+  }
+
+  const zlo = mapData.z[0]*100, zhi = mapData.z[1]*100, zr = Math.max(1, zhi-zlo);
+  for(const p of mapData.pts){
+    const t = Math.max(0, Math.min(1, (p[2]-zlo)/zr));
+    ctx.globalAlpha = 0.45 + 0.55*t;          // higher in the slab = brighter
+    ctx.fillStyle = css("--amber");
+    ctx.fillRect(X(p[0]/100), Y(p[1]/100), 1.6, 1.6);
+  }
+  ctx.globalAlpha = 1;
+
+  const [px,py,pyaw] = mapData.pose;
+  const a = pyaw*Math.PI/180, L = 11;
+  ctx.strokeStyle = css("--amber-hi");
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(X(px)+Math.cos(a)*L, Y(py)-Math.sin(a)*L);
+  ctx.lineTo(X(px)+Math.cos(a+2.5)*L*0.8, Y(py)-Math.sin(a+2.5)*L*0.8);
+  ctx.lineTo(X(px)+Math.cos(a-2.5)*L*0.8, Y(py)-Math.sin(a-2.5)*L*0.8);
+  ctx.closePath(); ctx.stroke();
+
+  metaEl.textContent =
+    `${mapData.n}/${mapData.total} pts \u00b7 ${spanX.toFixed(1)}\u00d7${spanY.toFixed(1)} m ` +
+    `\u00b7 ${(1/S*100).toFixed(1)} cm/px`;
+}
+
+// Only the visible canvas is drawn — an offscreen tab costs nothing.
+function drawView(){
+  if(activeTab === "drive"){
+    const cam = cameraLive();
+    $("#p_cam").style.display   = cam ? "flex" : "none";
+    $("#p_sweep").style.display = cam ? "none" : "flex";
+    if(cam) drawCam(); else drawLive();
+    drawMapOn(cvMini, ctxMini, $("#meta_mini"));
+  }else if(activeTab === "map"){
+    drawMapOn(cvMap, ctxMap, $("#meta_map"));
+  }
+  requestAnimationFrame(drawView);
+}
+requestAnimationFrame(drawView);
+
+// z-slab steppers write straight to hud_view's live parameters
+$$("#zrow button").forEach(b=>{
+  b.addEventListener("click", ()=>{
+    nudge(b.dataset.z === "min" ? "z_min" : "z_max", parseFloat(b.dataset.step));
+  });
+});
+
+let detLastT = 0, detN = 0, detHz = 0, detPrevT = 0;
+
+// Detections are readable WITHOUT the camera image. The boxes need a picture
+// to sit on; knowing YOLO is alive and what it sees does not — and until the
+// compressed image topic exists, this is the only view of it.
+function paintDets(){
+  const t = performance.now()/1000;
+  if(detPrevT) detHz = 0.7*detHz + 0.3*(1/Math.max(1e-3, t - detPrevT));
+  detPrevT = t;
+  const el = $("#det_list");
+  $("#det_rate").textContent = `${detHz.toFixed(0)} Hz \u00b7 ${detN} msgs`;
+  if(!dets.length){
+    el.className = "nodata";
+    el.textContent = "running, nothing detected";
+    return;
+  }
+  const counts = {};
+  for(const d of dets) counts[d.name] = (counts[d.name] || 0) + 1;
+  el.className = "";
+  el.innerHTML = Object.entries(counts)
+    .sort((a,b)=>b[1]-a[1])
+    .map(([n,c])=>`<span class="ok">${c}\u00d7</span> ${n}`)
+    .join("&nbsp;&nbsp; ");
+}
+
+setInterval(()=>{
+  if(detLastT && performance.now()/1000 - detLastT > 3.0){
+    $("#det_list").className = "nodata";
+    $("#det_list").textContent = "no /beetle_detections \u2014 YOLO not running";
+    $("#det_rate").textContent = "";
+    dets = [];
+  }
+}, 1000);
+
+/* ---------------- camera + detections ----------------
+   JPEG frames straight into an <img> the browser decodes natively, with
+   boxes stroked over the top from /beetle_detections. Compositing here is
+   what makes detection_overlay.py unnecessary — that node decodes, draws,
+   and republishes a SECOND 900 KB raw frame purely so something else can
+   draw rectangles. A JPEG plus a few hundred bytes of JSON does the same job
+   for roughly a fiftieth of the bandwidth, and the boxes land on the Deck's
+   GPU instead of the A55s.                                              */
+const cvCam = $("#cv_cam"), ctxCam = cvCam.getContext("2d");
+const camImg = new Image();
+let camReady = false, camLastT = 0, camBytes = 0, camHz = 0, camN = 0;
+let dets = [];
+
+camImg.onload = ()=>{ camReady = true; };
+
+function cameraLive(){
+  return (performance.now()/1000 - camLastT) < CAMERA_TIMEOUT;
+}
+
+function drawCam(){
+  const {w,h,dpr} = fitCanvas(cvCam);
+  ctxCam.setTransform(dpr,0,0,dpr,0,0);
+  ctxCam.clearRect(0,0,w,h);
+  if(!camReady){
+    ctxCam.fillStyle = css("--amber-dim");
+    ctxCam.font = "12px monospace";
+    ctxCam.fillText("waiting for compressed frames\u2026", 10, 20);
+    return;
+  }
+  const iw = camImg.naturalWidth || 640, ih = camImg.naturalHeight || 480;
+  const S = Math.min(w/iw, h/ih);
+  const ox = (w - iw*S)/2, oy = (h - ih*S)/2;
+  ctxCam.drawImage(camImg, ox, oy, iw*S, ih*S);
+
+  // model space -> image space, then image space -> canvas
+  const kx = (iw / DET_SPACE.w) * S, ky = (ih / DET_SPACE.h) * S;
+  ctxCam.lineWidth = 2;
+  ctxCam.font = "12px monospace";
+  for(const d of dets){
+    const bx = ox + d.x*kx, by = oy + d.y*ky;
+    ctxCam.strokeStyle = css("--amber-hi");
+    ctxCam.strokeRect(bx, by, d.w*kx, d.h*ky);
+    const label = `${d.name} ${d.conf.toFixed(2)}`;
+    const tw = ctxCam.measureText(label).width + 6;
+    const ly = Math.max(oy + 15, by);      // keep the label on-canvas
+    ctxCam.fillStyle = css("--amber-hi");
+    ctxCam.fillRect(bx, ly - 15, tw, 15);
+    ctxCam.fillStyle = css("--bg");
+    ctxCam.fillText(label, bx + 3, ly - 4);
+  }
+  $("#meta_cam").textContent =
+    `${iw}\u00d7${ih} \u00b7 ${(camBytes/1024).toFixed(0)} KB ` +
+    `\u00b7 ${camHz.toFixed(1)} Hz \u00b7 ${dets.length} det`;
+}
+
+/* ---------------- system telemetry ----------------
+   Served by beetle_agent, not rosbridge, so it works before ROS starts and
+   keeps working if ROS dies. That is what makes it useful for answering
+   "what did that node just cost me".                                     */
+const SPARKS = {
+  cpu:  { el:"#sp_cpu",  max:100 },
+  bpu:  { el:"#sp_bpu",  max:100 },
+  temp: { el:"#sp_temp", max:90  },
+  mem:  { el:"#sp_mem",  max:100 },
+};
+
+function drawSpark(sel, series, max){
+  const svg = $(sel);
+  if(!svg) return;
+  const n = series.length;
+  if(n < 2){ svg.innerHTML = ""; return; }
+  const W = 180, H = 24, pad = 1.5;
+  const step = W / (n - 1);
+  const y = v => H - pad - (Math.max(0, Math.min(max, v)) / max) * (H - pad*2);
+  const pts = series.map((v,i)=> `${(i*step).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+  // Filled area under the line reads better than a bare stroke at this size.
+  svg.innerHTML =
+    `<polygon points="0,${H} ${pts} ${W},${H}" fill="var(--amber-ghost)"/>` +
+    `<polyline points="${pts}" fill="none" stroke="var(--amber)" stroke-width="1.5"/>` +
+    `<circle cx="${W}" cy="${y(series[n-1]).toFixed(1)}" r="2" fill="var(--amber-hi)"/>`;
+}
+
+let coreEls = [];
+function paintCores(cores){
+  if(coreEls.length !== cores.length){
+    $("#cores").innerHTML = "";
+    coreEls = cores.map(()=>{
+      const d = document.createElement("div");
+      $("#cores").appendChild(d);
+      return d;
+    });
+  }
+  cores.forEach((c,i)=>{
+    coreEls[i].style.height = Math.max(1, Math.round(c * 0.22)) + "px";
+    coreEls[i].classList.toggle("hot", c > 85);
+  });
+}
+
+async function pollSys(){
+  try{
+    const s = await (await fetch("/api/sys")).json();
+    const n = s.now || {}, h = s.hist || {};
+
+    $("#s_cpu").textContent  = n.cpu  != null ? n.cpu.toFixed(0)+"%" : "--";
+    $("#s_bpu").textContent  = n.bpu  != null ? n.bpu+"%"            : "n/a";
+    $("#s_temp").textContent = n.temp != null ? n.temp.toFixed(0)+"\u00B0" : "--";
+    $("#s_mem").textContent  = n.mem_total
+      ? (n.mem_used/1024).toFixed(1)+"G" : "--";
+
+    // Load is against core count, not an absolute — 6 is fine on 8 cores.
+    $("#s_load").textContent = n.load != null ? n.load.toFixed(2) : "--";
+    $("#s_freq").textContent = n.freq ? n.freq+" MHz" : "";
+    $("#s_net").textContent  = (n.rx!=null)
+      ? `\u2193${n.rx.toFixed(0)} \u2191${n.tx.toFixed(0)} kB/s` : "--";
+
+    $("#s_temp").classList.toggle("hot", n.temp != null && n.temp > 75);
+    $("#s_cpu").classList.toggle("hot",
+      n.load != null && n.ncpu && n.load > n.ncpu * 0.9);
+
+    if(n.cores) paintCores(n.cores);
+    for(const k in SPARKS) if(h[k]) drawSpark(SPARKS[k].el, h[k], SPARKS[k].max);
+
+    if(n.procs && n.procs.length){
+      $("#tops").innerHTML = n.procs
+        .map(p => `<b>${p.cpu.toFixed(0)}</b> ${p.name}`).join("&nbsp; ");
+    }
+
+    // Compact mirror on the header, and on the boot screen where it matters
+    // most — you can watch each bringup stage arrive and see what it costs.
+    const hdr = `CPU ${n.cpu!=null?n.cpu.toFixed(0):"--"}%` +
+                (n.bpu!=null ? `  BPU ${n.bpu}%` : "") +
+                (n.temp!=null ? `  ${n.temp.toFixed(0)}\u00B0` : "");
+    const bs = $("#bsys"); if(bs) bs.textContent = hdr;
+  }catch(e){
+    const bs = $("#bsys"); if(bs) bs.textContent = "";
+  }
+  setTimeout(pollSys, 1000);
+}
+pollSys();
+
+pollAgent();
+connect();
+</script>
+</body>
+</html>

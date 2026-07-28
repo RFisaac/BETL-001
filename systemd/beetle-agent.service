@@ -1,0 +1,42 @@
+[Unit]
+Description=Beetle agent — discovery beacon, console web server, bringup launcher
+Documentation=file:///userdata/beetle_agent.py
+# Wants, not Requires: if the network is slow to come up the agent should
+# still start. It re-reads its interfaces every 10 s and will pick up an
+# address whenever one appears, so there is nothing to wait for.
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/userdata
+
+# systemd does NOT read ~/.bashrc, so a service gets none of the ROS
+# environment an interactive shell has. Without these two source lines the
+# agent itself starts fine — it needs no ROS — and then every child it spawns
+# dies with "ModuleNotFoundError: No module named 'rclpy'".
+#
+# `exec` matters: it replaces bash with python, so systemd's MainPID is the
+# agent itself and KillMode=process signals the right process.
+ExecStart=/bin/bash -c 'source /opt/tros/humble/setup.bash && source /root/beetle_ws/install/setup.bash && exec /usr/bin/python3 /userdata/beetle_agent.py --dir /root/beetle_hud'
+
+# The agent is deliberately tiny and ROS-free so that it can be the thing
+# that always works. If it ever does die, it should come straight back —
+# losing it means losing the ability to find or start the robot at all.
+Restart=always
+RestartSec=3
+
+# Do NOT use KillMode=control-group here. The agent starts beetle_up.py in
+# its own process group precisely so it can manage that tree itself; letting
+# systemd kill the whole cgroup would take the ROS stack down with any agent
+# restart, including a routine one.
+KillMode=process
+TimeoutStopSec=20
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=beetle-agent
+
+[Install]
+WantedBy=multi-user.target

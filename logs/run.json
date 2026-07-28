@@ -1,0 +1,67 @@
+{
+  "label": "run",
+  "frames": 200,
+  "warmup_discarded": 10,
+  "stages": {
+    "recvedimg": {
+      "n": 200,
+      "mean_ms": 80.41,
+      "median_ms": 80.0,
+      "p95_ms": 84.0,
+      "p99_ms": 86.0,
+      "min_ms": 75.0,
+      "max_ms": 89.0,
+      "stdev_ms": 2.28
+    },
+    "preprocess": {
+      "n": 200,
+      "mean_ms": 6.6,
+      "median_ms": 6.0,
+      "p95_ms": 8.0,
+      "p99_ms": 12.0,
+      "min_ms": 5.0,
+      "max_ms": 15.0,
+      "stdev_ms": 1.31
+    },
+    "predict_infer": {
+      "n": 200,
+      "mean_ms": 6.74,
+      "median_ms": 7.0,
+      "p95_ms": 7.0,
+      "p99_ms": 10.0,
+      "min_ms": 6.0,
+      "max_ms": 10.0,
+      "stdev_ms": 0.67
+    },
+    "postprocess": {
+      "n": 200,
+      "mean_ms": 3.58,
+      "median_ms": 4.0,
+      "p95_ms": 4.0,
+      "p99_ms": 7.0,
+      "min_ms": 3.0,
+      "max_ms": 10.0,
+      "stdev_ms": 0.77
+    },
+    "pipeline": {
+      "n": 200,
+      "mean_ms": 98.63,
+      "median_ms": 99.0,
+      "p95_ms": 102.0,
+      "p99_ms": 106.0,
+      "min_ms": 92.0,
+      "max_ms": 108.0,
+      "stdev_ms": 2.59
+    }
+  },
+  "node_reported_fps": {
+    "n": 200,
+    "mean_ms": 15.0,
+    "median_ms": 15.0,
+    "p95_ms": 15.0,
+    "p99_ms": 15.0,
+    "min_ms": 15.0,
+    "max_ms": 15.0,
+    "stdev_ms": 0.0
+  }
+}

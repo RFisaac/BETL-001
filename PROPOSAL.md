@@ -3,6 +3,15 @@
 *Robotics Dream Keeper Challenge — Stage 2 (Build)*
 *Version 1.0 — 2026-06-27*
 
+> **Kept as the Stage 2 historical record — not updated to match the Stage 3 build.**
+> Several concrete decisions below changed by the time Beetle actually ran: mapping is
+> **wheel+gyro dead reckoning**, not `slam_toolbox` SLAM (RTAB-Map was tried first, overloaded
+> the CPU, and was pulled from the live chain — its concurrent-load numbers still feed the
+> benchmark, though); wheel odometry comes straight off the four ODESC drivers over USB, not
+> through a dedicated odometry micro-ROS Pico; and the detection model running is YOLOv8n, not
+> YOLOv8s. For what actually shipped, see [`docs/architecture.md`](docs/architecture.md),
+> [`docs/calibration.md`](docs/calibration.md), and [`docs/benchmark.md`](docs/benchmark.md).
+
 A scratch-built, expressive lidar mobile robot on the RDK X5 — a modular research platform
 for developing and testing robotics skills. It drives, builds 2D occupancy maps, runs
 BPU-accelerated object detection concurrently, supports modular payloads via an M6-grid

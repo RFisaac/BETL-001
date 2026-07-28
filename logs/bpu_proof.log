@@ -1,0 +1,3120 @@
+08:31:00
+=====================1=====================
+temperature-->
+	DDR      : 41.0 (C)
+40115
+	BPU      : 40.1 (C)
+	CPU      : 41.0 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:01
+=====================1=====================
+temperature-->
+	DDR      : 41.2 (C)
+40457
+	BPU      : 40.5 (C)
+	CPU      : 41.0 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:03
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+40115
+	BPU      : 40.1 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:04
+=====================1=====================
+temperature-->
+	DDR      : 40.9 (C)
+40310
+	BPU      : 40.3 (C)
+	CPU      : 40.9 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:05
+=====================1=====================
+temperature-->
+	DDR      : 40.9 (C)
+40164
+	BPU      : 40.2 (C)
+	CPU      : 40.6 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:07
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+40017
+	BPU      : 40.4 (C)
+	CPU      : 40.8 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:08
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+40066
+	BPU      : 40.3 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:09
+=====================1=====================
+temperature-->
+	DDR      : 40.7 (C)
+39968
+	BPU      : 40.1 (C)
+	CPU      : 40.3 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:10
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+39968
+	BPU      : 40.0 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:12
+=====================1=====================
+temperature-->
+	DDR      : 40.7 (C)
+39773
+	BPU      : 39.8 (C)
+	CPU      : 40.4 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:13
+=====================1=====================
+temperature-->
+	DDR      : 40.9 (C)
+39968
+	BPU      : 40.0 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:14
+=====================1=====================
+temperature-->
+	DDR      : 40.7 (C)
+39724
+	BPU      : 39.7 (C)
+	CPU      : 40.4 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:15
+=====================1=====================
+temperature-->
+	DDR      : 41.2 (C)
+40359
+	BPU      : 40.4 (C)
+	CPU      : 41.0 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:17
+=====================1=====================
+temperature-->
+	DDR      : 40.9 (C)
+40066
+	BPU      : 40.1 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:18
+=====================1=====================
+temperature-->
+	DDR      : 41.1 (C)
+40213
+	BPU      : 40.2 (C)
+	CPU      : 40.8 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:19
+=====================1=====================
+temperature-->
+	DDR      : 40.9 (C)
+40017
+	BPU      : 40.0 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:20
+=====================1=====================
+temperature-->
+	DDR      : 40.9 (C)
+40115
+	BPU      : 40.2 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:22
+=====================1=====================
+temperature-->
+	DDR      : 41.3 (C)
+40506
+	BPU      : 40.5 (C)
+	CPU      : 40.9 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:23
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+40115
+	BPU      : 40.1 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:24
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+40213
+	BPU      : 40.0 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:25
+=====================1=====================
+temperature-->
+	DDR      : 40.7 (C)
+40017
+	BPU      : 39.9 (C)
+	CPU      : 40.3 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	600	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:27
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+40164
+	BPU      : 40.1 (C)
+	CPU      : 40.5 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:28
+=====================1=====================
+temperature-->
+	DDR      : 40.7 (C)
+39724
+	BPU      : 40.0 (C)
+	CPU      : 40.4 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:29
+=====================1=====================
+temperature-->
+	DDR      : 40.7 (C)
+39920
+	BPU      : 40.2 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:31
+=====================1=====================
+temperature-->
+	DDR      : 41.0 (C)
+40115
+	BPU      : 40.2 (C)
+	CPU      : 40.8 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:32
+=====================1=====================
+temperature-->
+	DDR      : 41.3 (C)
+40652
+	BPU      : 40.7 (C)
+	CPU      : 41.0 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:33
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+40164
+	BPU      : 40.1 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:34
+=====================1=====================
+temperature-->
+	DDR      : 41.4 (C)
+40506
+	BPU      : 40.7 (C)
+	CPU      : 41.4 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:36
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+40115
+	BPU      : 40.1 (C)
+	CPU      : 40.5 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:37
+=====================1=====================
+temperature-->
+	DDR      : 41.2 (C)
+40359
+	BPU      : 40.6 (C)
+	CPU      : 41.0 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:38
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+39871
+	BPU      : 40.2 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:39
+=====================1=====================
+temperature-->
+	DDR      : 40.7 (C)
+39822
+	BPU      : 39.8 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:41
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+39871
+	BPU      : 39.8 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:42
+=====================1=====================
+temperature-->
+	DDR      : 40.7 (C)
+39724
+	BPU      : 40.0 (C)
+	CPU      : 40.4 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:43
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+39968
+	BPU      : 40.1 (C)
+	CPU      : 40.6 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	4
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:44
+=====================1=====================
+temperature-->
+	DDR      : 40.7 (C)
+39968
+	BPU      : 39.9 (C)
+	CPU      : 40.2 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:46
+=====================1=====================
+temperature-->
+	DDR      : 41.5 (C)
+40555
+	BPU      : 40.6 (C)
+	CPU      : 41.6 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:47
+=====================1=====================
+temperature-->
+	DDR      : 40.9 (C)
+40115
+	BPU      : 40.0 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:48
+=====================1=====================
+temperature-->
+	DDR      : 41.2 (C)
+40262
+	BPU      : 40.2 (C)
+	CPU      : 40.8 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:50
+=====================1=====================
+temperature-->
+	DDR      : 41.2 (C)
+40310
+	BPU      : 40.3 (C)
+	CPU      : 40.8 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:51
+=====================1=====================
+temperature-->
+	DDR      : 41.2 (C)
+40359
+	BPU      : 40.4 (C)
+	CPU      : 40.8 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:52
+=====================1=====================
+temperature-->
+	DDR      : 41.1 (C)
+40262
+	BPU      : 40.3 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:53
+=====================1=====================
+temperature-->
+	DDR      : 41.0 (C)
+40359
+	BPU      : 40.4 (C)
+	CPU      : 40.9 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:55
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+39920
+	BPU      : 40.3 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	600	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:56
+=====================1=====================
+temperature-->
+	DDR      : 40.7 (C)
+39871
+	BPU      : 40.1 (C)
+	CPU      : 40.6 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:57
+=====================1=====================
+temperature-->
+	DDR      : 40.7 (C)
+39822
+	BPU      : 40.2 (C)
+	CPU      : 40.5 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:31:58
+=====================1=====================
+temperature-->
+	DDR      : 40.7 (C)
+39724
+	BPU      : 39.7 (C)
+	CPU      : 40.4 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:00
+=====================1=====================
+temperature-->
+	DDR      : 40.7 (C)
+39920
+	BPU      : 39.9 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:01
+=====================1=====================
+temperature-->
+	DDR      : 41.4 (C)
+40603
+	BPU      : 40.6 (C)
+	CPU      : 41.6 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:02
+=====================1=====================
+temperature-->
+	DDR      : 41.2 (C)
+40359
+	BPU      : 40.4 (C)
+	CPU      : 40.9 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:03
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+40017
+	BPU      : 40.0 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:05
+=====================1=====================
+temperature-->
+	DDR      : 41.5 (C)
+40652
+	BPU      : 40.7 (C)
+	CPU      : 41.0 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:06
+=====================1=====================
+temperature-->
+	DDR      : 40.9 (C)
+40066
+	BPU      : 40.0 (C)
+	CPU      : 40.5 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:07
+=====================1=====================
+temperature-->
+	DDR      : 41.3 (C)
+40603
+	BPU      : 40.5 (C)
+	CPU      : 41.2 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:08
+=====================1=====================
+temperature-->
+	DDR      : 40.9 (C)
+40164
+	BPU      : 40.2 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:10
+=====================1=====================
+temperature-->
+	DDR      : 40.9 (C)
+40164
+	BPU      : 40.2 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:11
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+40115
+	BPU      : 40.1 (C)
+	CPU      : 40.6 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:12
+=====================1=====================
+temperature-->
+	DDR      : 40.7 (C)
+40115
+	BPU      : 40.0 (C)
+	CPU      : 40.4 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:13
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+39871
+	BPU      : 40.1 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:15
+=====================1=====================
+temperature-->
+	DDR      : 40.7 (C)
+39871
+	BPU      : 39.9 (C)
+	CPU      : 40.5 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:16
+=====================1=====================
+temperature-->
+	DDR      : 41.7 (C)
+40652
+	BPU      : 40.7 (C)
+	CPU      : 41.6 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:17
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+40310
+	BPU      : 40.3 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:19
+=====================1=====================
+temperature-->
+	DDR      : 41.0 (C)
+40506
+	BPU      : 40.6 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:20
+=====================1=====================
+temperature-->
+	DDR      : 41.1 (C)
+40213
+	BPU      : 40.3 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:21
+=====================1=====================
+temperature-->
+	DDR      : 41.4 (C)
+40359
+	BPU      : 40.4 (C)
+	CPU      : 41.1 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:22
+=====================1=====================
+temperature-->
+	DDR      : 41.0 (C)
+40164
+	BPU      : 40.2 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:24
+=====================1=====================
+temperature-->
+	DDR      : 41.1 (C)
+40262
+	BPU      : 40.2 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:25
+=====================1=====================
+temperature-->
+	DDR      : 40.7 (C)
+39920
+	BPU      : 40.2 (C)
+	CPU      : 40.6 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:26
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+39968
+	BPU      : 39.9 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:27
+=====================1=====================
+temperature-->
+	DDR      : 40.7 (C)
+39871
+	BPU      : 39.9 (C)
+	CPU      : 40.6 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:29
+=====================1=====================
+temperature-->
+	DDR      : 40.7 (C)
+39822
+	BPU      : 39.8 (C)
+	CPU      : 40.5 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	7
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:30
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+39968
+	BPU      : 40.0 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:31
+=====================1=====================
+temperature-->
+	DDR      : 41.5 (C)
+40652
+	BPU      : 40.6 (C)
+	CPU      : 41.1 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	7
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:32
+=====================1=====================
+temperature-->
+	DDR      : 41.2 (C)
+40506
+	BPU      : 40.5 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:34
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+40066
+	BPU      : 40.3 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:35
+=====================1=====================
+temperature-->
+	DDR      : 41.2 (C)
+40457
+	BPU      : 40.4 (C)
+	CPU      : 40.8 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:36
+=====================1=====================
+temperature-->
+	DDR      : 40.9 (C)
+40213
+	BPU      : 40.2 (C)
+	CPU      : 40.8 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:37
+=====================1=====================
+temperature-->
+	DDR      : 41.3 (C)
+40506
+	BPU      : 40.6 (C)
+	CPU      : 41.2 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:39
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+40115
+	BPU      : 40.1 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:40
+=====================1=====================
+temperature-->
+	DDR      : 40.9 (C)
+40164
+	BPU      : 40.2 (C)
+	CPU      : 40.8 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:41
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+40017
+	BPU      : 40.0 (C)
+	CPU      : 40.4 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:42
+=====================1=====================
+temperature-->
+	DDR      : 41.0 (C)
+40115
+	BPU      : 40.1 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:44
+=====================1=====================
+temperature-->
+	DDR      : 40.9 (C)
+40017
+	BPU      : 40.0 (C)
+	CPU      : 40.6 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:45
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+40066
+	BPU      : 40.0 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:46
+=====================1=====================
+temperature-->
+	DDR      : 41.4 (C)
+40555
+	BPU      : 40.6 (C)
+	CPU      : 40.8 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:48
+=====================1=====================
+temperature-->
+	DDR      : 41.0 (C)
+40213
+	BPU      : 40.1 (C)
+	CPU      : 40.6 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:49
+=====================1=====================
+temperature-->
+	DDR      : 41.0 (C)
+40310
+	BPU      : 40.2 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:50
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+40066
+	BPU      : 40.3 (C)
+	CPU      : 40.6 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:51
+=====================1=====================
+temperature-->
+	DDR      : 41.1 (C)
+40310
+	BPU      : 40.4 (C)
+	CPU      : 40.8 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:53
+=====================1=====================
+temperature-->
+	DDR      : 40.9 (C)
+40115
+	BPU      : 40.1 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	600	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:54
+=====================1=====================
+temperature-->
+	DDR      : 41.1 (C)
+40262
+	BPU      : 40.3 (C)
+	CPU      : 40.8 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:55
+=====================1=====================
+temperature-->
+	DDR      : 40.7 (C)
+39968
+	BPU      : 39.9 (C)
+	CPU      : 40.4 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:56
+=====================1=====================
+temperature-->
+	DDR      : 40.9 (C)
+40115
+	BPU      : 40.2 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:58
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+39968
+	BPU      : 40.0 (C)
+	CPU      : 40.5 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:32:59
+=====================1=====================
+temperature-->
+	DDR      : 41.0 (C)
+40115
+	BPU      : 40.1 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:33:00
+=====================1=====================
+temperature-->
+	DDR      : 41.1 (C)
+40262
+	BPU      : 40.3 (C)
+	CPU      : 40.8 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:33:01
+=====================1=====================
+temperature-->
+	DDR      : 41.3 (C)
+40652
+	BPU      : 40.5 (C)
+	CPU      : 40.8 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:33:03
+=====================1=====================
+temperature-->
+	DDR      : 41.1 (C)
+40310
+	BPU      : 40.3 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:33:04
+=====================1=====================
+temperature-->
+	DDR      : 40.9 (C)
+40359
+	BPU      : 40.3 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:33:05
+=====================1=====================
+temperature-->
+	DDR      : 41.1 (C)
+40115
+	BPU      : 40.4 (C)
+	CPU      : 40.9 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:33:06
+=====================1=====================
+temperature-->
+	DDR      : 41.2 (C)
+40262
+	BPU      : 40.2 (C)
+	CPU      : 41.1 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:33:08
+=====================1=====================
+temperature-->
+	DDR      : 41.1 (C)
+40310
+	BPU      : 40.3 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:33:09
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+39968
+	BPU      : 39.9 (C)
+	CPU      : 40.6 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:33:10
+=====================1=====================
+temperature-->
+	DDR      : 41.1 (C)
+40213
+	BPU      : 40.2 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:33:12
+=====================1=====================
+temperature-->
+	DDR      : 40.7 (C)
+39920
+	BPU      : 39.9 (C)
+	CPU      : 40.4 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	8
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:33:13
+=====================1=====================
+temperature-->
+	DDR      : 41.0 (C)
+40115
+	BPU      : 40.1 (C)
+	CPU      : 40.8 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:33:14
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+39968
+	BPU      : 39.9 (C)
+	CPU      : 40.4 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	7
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:33:15
+=====================1=====================
+temperature-->
+	DDR      : 41.4 (C)
+40408
+	BPU      : 40.4 (C)
+	CPU      : 41.1 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	8
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:33:17
+=====================1=====================
+temperature-->
+	DDR      : 41.3 (C)
+40310
+	BPU      : 40.4 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:33:18
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+40262
+	BPU      : 40.1 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:33:19
+=====================1=====================
+temperature-->
+	DDR      : 41.1 (C)
+40506
+	BPU      : 40.4 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:33:20
+=====================1=====================
+temperature-->
+	DDR      : 40.8 (C)
+40017
+	BPU      : 40.3 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:33:22
+=====================1=====================
+temperature-->
+	DDR      : 41.3 (C)
+40506
+	BPU      : 40.7 (C)
+	CPU      : 41.3 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:33:23
+=====================1=====================
+temperature-->
+	DDR      : 40.9 (C)
+40017
+	BPU      : 40.0 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1200	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:33:24
+=====================1=====================
+temperature-->
+	DDR      : 41.1 (C)
+40262
+	BPU      : 40.3 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	600	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:33:25
+=====================1=====================
+temperature-->
+	DDR      : 40.7 (C)
+39871
+	BPU      : 39.9 (C)
+	CPU      : 40.5 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1200	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:33:27
+=====================1=====================
+temperature-->
+	DDR      : 41.0 (C)
+40115
+	BPU      : 40.1 (C)
+	CPU      : 40.8 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:33:28
+=====================1=====================
+temperature-->
+	DDR      : 40.7 (C)
+39871
+	BPU      : 39.9 (C)
+	CPU      : 40.6 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1200	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1200	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1200	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	5
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:33:29
+=====================1=====================
+temperature-->
+	DDR      : 41.0 (C)
+40066
+	BPU      : 40.1 (C)
+	CPU      : 40.7 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1200	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1500	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1200	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
+08:33:30
+=====================1=====================
+temperature-->
+	DDR      : 41.3 (C)
+40359
+	BPU      : 40.4 (C)
+	CPU      : 41.0 (C)
+cpu frequency-->
+	      min(M)	cur(M)	max(M)
+	cpu0: 300	1500	1500
+	cpu1: 300	1500	1500
+	cpu2: 300	1200	1500
+	cpu3: 300	1500	1500
+	cpu4: 300	1500	1500
+	cpu5: 300	1500	1500
+	cpu6: 300	1500	1500
+	cpu7: 300	1500	1500
+bpu status information---->
+	      min(M)	cur(M)	max(M)	ratio
+	bpu0: 500	1000	1000	6
+ddr frequency information---->
+	      min(M)	cur(M)	max(M)
+	ddr:  266	4266	4266
+GPU gc8000 frequency information---->
+	      min(M)	cur(M)	max(M)
+	gc8000:  200	1000	1000
