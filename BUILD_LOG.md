@@ -160,8 +160,23 @@ So every wheel got its own **trailing arm with a shock**. The AS5047Ps came off,
 geometry, and the drives fell back to the hub motors' hall sensors (90 counts/rev). The lidar was remounted flat for future
 2D SLAM, and a Raspberry Pi 4B went in as the SLAM coprocessor-to-be.
 
+<p align="center">
+  <img src="media/log/2026-09-trailing-arm-suspension.jpg" width="42%" alt="Trailing arm with shock and mecanum wheel">
+  <img src="media/log/2026-09-suspension.gif" width="54%" alt="Pressing on the chassis to show the suspension travel">
+</p>
+<p align="center"><sub>One trailing arm per wheel. Every mecanum wheel stays on the floor.</sub></p>
+
 **On tour.** Beetle went to conferences abroad in teleop-only mode. What people loved most was **watching it drive sideways and
 at angles**. I gave a **lightning talk at ROSCon 2026**, and D-Robotics interviewed me about the build.
+
+<p align="center">
+  <img src="media/log/2026-09-on-tour-workbench.jpg" width="49%" alt="Beetle on a workbench in a crowded hacking space">
+  <img src="media/log/2026-09-conference-floor.jpg" width="49%" alt="Beetle on a conference show floor">
+</p>
+<p align="center">
+  <img src="media/log/2026-09-cargo-run.gif" width="60%" alt="Beetle carrying a box and a bag through a parking garage">
+</p>
+<p align="center"><sub>September 2026 on tour: late-night fixes at the bench, the show floor, and a side job as a luggage cart.</sub></p>
 
 **The night-before unlock.** Mecanum crabbing on conference carpet needs real torque, and the drives didn't have it. The cause
 was a **torque constant that had been wrong all along**. The firmware default was 0.04, and a later guess of 0.517 was also wrong.

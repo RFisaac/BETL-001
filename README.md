@@ -19,7 +19,11 @@
 
 ---
 
-![Beetle concept render](media/current_render.png)
+<p align="center">
+  <img src="media/log/2026-09-mecanum-assembled.jpg" width="56%" alt="Beetle on mecanum wheels with the beetle horn, September 2026">
+  <img src="media/log/2026-09-cargo-run.gif" width="40%" alt="Beetle hauling a box on tour">
+</p>
+<p align="center"><sub>The mecanum rebuild, September 2026 · hauling luggage on tour</sub></p>
 
 ## Right now (Nov 2026)
 
@@ -30,6 +34,7 @@
 | **Driving** | Teleop from a Steam Deck over UDP, with strafe, diagonals and a "crab-lock" button |
 | **Voice** | Offline wake word, English ↔ Chinese translator, voice "stop" and a Speak & Spell voice, on the bench → [`betl_voice`](ros2_ws/src/betl_voice/) |
 | **Autonomy** | None running. The Stage 3 dead-reckoning and 3D-scan stack is [parked, not deleted](docs/architecture.md) |
+| **Look** | Bare chassis today. The shell it's growing into is [this render](media/current_render.png) |
 | **Shape** | Partly disassembled after a conference trip. It's being rebuilt with eyes, voice and a shell for **Maker Faire Shenzhen** (early Dec 2026) |
 
 Full as-built details are in [`docs/current-state.md`](docs/current-state.md).
