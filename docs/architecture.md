@@ -1,7 +1,10 @@
 # Architecture — as built, Stage 3
 
+> 📼 **Stage 3 snapshot (July 2026, skid steer).** Beetle has since moved to mecanum and is running teleop only.
+> What's on the robot now: [`current-state.md`](current-state.md). Story: [`BUILD_LOG.md`](../BUILD_LOG.md).
+
 This describes what actually runs on Beetle as of 2026-07-28. It supersedes the
-architecture described in [`PROPOSAL.md`](../PROPOSAL.md) (Stage 2), which was written
+architecture described in [`PROPOSAL.md`](rdk-challenge/PROPOSAL.md) (Stage 2), which was written
 before the robot existed and got several concrete decisions wrong in the normal way a
 pre-build proposal does. Where the two disagree, this document is current.
 

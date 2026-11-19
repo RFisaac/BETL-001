@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>betl_voice</name>
+  <version>0.1.0</version>
+  <description>BETL robot voice: reSpeaker Flex direction of arrival, offline wake word, bilingual
+    speech recognition, English/Chinese translation, Speak and Spell style LPC voice, and an LED
+    ring that shows where BETL is listening.</description>
+  <maintainer email="isaac@rustedfriend.com">Isaac</maintainer>
+  <license>MIT</license>
+
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+  <exec_depend>python3-scipy</exec_depend>
+  <exec_depend>python3-serial</exec_depend>
+  <exec_depend>python3-usb</exec_depend>
+  <exec_depend>espeak-ng</exec_depend>
+  <!-- pip-only: sherpa-onnx ctranslate2 sentencepiece sounddevice pypinyin (see scripts/install_deps.sh) -->
+
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

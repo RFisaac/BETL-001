@@ -9,8 +9,8 @@
 > was a later, separate design thread that didn't reach this robot), and **the mapping stack
 > is wheel+gyro dead reckoning, not `slam_toolbox` SLAM** — depth-based SLAM (RTAB-Map) was
 > tried, overloaded the CPU, and was pulled from the live chain. See
-> [`docs/architecture.md`](docs/architecture.md) for what's actually running and
-> [`docs/failure-recovery.md`](docs/failure-recovery.md) for how that decision got made.
+> [`docs/architecture.md`](../architecture.md) for what's actually running and
+> [`docs/failure-recovery.md`](../failure-recovery.md) for how that decision got made.
 > Milestone checkboxes below are left exactly as last written; they were not maintained
 > day-to-day and shouldn't be read as a live status tracker.
 
