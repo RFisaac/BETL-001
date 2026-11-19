@@ -98,7 +98,8 @@ The full layer list is in [`architecture.md`](architecture.md#safety--single-pat
 ## Expressive hardware
 
 - **Eyes:** prototyped on a low-res LED ring and being replaced by a square grid (see [what's next](whats-next.md)).
-- Voice, side display, shell: not on the robot yet.
+- **Voice:** working as a bench prototype on the X5 with a reSpeaker Flex and a 16-LED direction ring. Not mounted on the robot yet → [`betl_voice`](../ros2_ws/src/betl_voice/).
+- Side display, shell: not on the robot yet.
 
 ## Which docs are current
 

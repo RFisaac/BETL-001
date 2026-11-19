@@ -40,6 +40,7 @@ flowchart LR
 - First automatic triggers: tracked person → gaze, a voice → glance toward the speaker, low battery → tired, ODESC fault → alarm glyph.
 
 ### 1 · Voice 🔨
+**Prototype working on the bench** → [`ros2_ws/src/betl_voice`](../ros2_ws/src/betl_voice/). Still to do: mount it on the robot and wire `/betl/estop` into the drive node.
 - **Seeed reSpeaker Flex** (XVF3800) on USB. It handles beamforming, noise suppression and echo cancellation on-chip.
 - **All audio plays through the Flex's own amp**, because echo cancellation only works on audio the board itself plays.
 - Stack: **sherpa-onnx**, which covers a custom "Hey Beetle" keyword spotter, Silero VAD, SenseVoice ASR (zh/en) and TTS.

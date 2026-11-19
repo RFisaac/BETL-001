@@ -4,7 +4,7 @@ Robot-side code (`nodes/`, `ros2_ws/`, `systemd/`) runs on the RDK X5 from `/use
 runs on the Steam Deck or a laptop. Everything here is the **Stage 3 (skid-steer) version**. The mecanum changes run on the robot
 but haven't been pushed yet.
 
-**Status:** 🟢 in daily use · 🟡 works, parked (Stage 3 stack, no current use) · 🔁 needs a mecanum update
+**Status:** 🟢 in daily use · 🔨 new, being tested for Shenzhen · 🟡 works, parked (Stage 3 stack, no current use) · 🔁 needs a mecanum update
 
 ## Robot side — `nodes/`
 
@@ -23,6 +23,7 @@ but haven't been pushed yet.
 | [`drive_log.py`](drive_log.py) | Time-aligned CSV of wheel states + odometry | 🟡 |
 | [`yolo_bench.py`](yolo_bench.py), [`capture_benchmark.sh`](capture_benchmark.sh) | BPU benchmark harvesting and evidence capture | 🟡 |
 | [`../ros2_ws/src/scan_stage/`](../ros2_ws/src/scan_stage/) | Lidar stage angle → TF (colcon package) | 🟡 |
+| [`../ros2_ws/src/betl_voice/`](../ros2_ws/src/betl_voice/) | Offline voice: wake word, translator, voice stop, notes, LPC voice, DoA LED ring (colcon package, own README) | 🔨 bench prototype |
 | [`../systemd/beetle-agent.service`](../systemd/beetle-agent.service) | Starts the agent at boot | 🟢 |
 
 ## Operator side — `tools/` and `console/`

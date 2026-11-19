@@ -12,7 +12,7 @@ For the robot as it stands today, see [`docs/current-state.md`](docs/current-sta
 | [4. Stage 3 ships](#chapter-4--stage-3-ships) | Jul 28 | Dead reckoning, a 3D scanner, and a clean BPU benchmark |
 | [5. Mecanum and the road](#chapter-5--mecanum-and-the-road) | Sep 2026 | New drivetrain, suspension, conferences, a ROSCon talk |
 | [6. Regroup](#chapter-6--regroup) | Oct 2026 | Mentor video, docs rebuilt for life after the competition |
-| [7. Shenzhen sprint](#chapter-7--shenzhen-sprint-in-progress) | Nov 2026 → | Eyes, voice, shell (in progress) |
+| [7. Shenzhen sprint](#chapter-7--shenzhen-sprint-in-progress) | Nov 2026 → | Offline voice and translator working, eyes and shell in progress |
 
 ---
 
@@ -210,8 +210,31 @@ from a research project into an integration job.
 
 *November 2026 →*
 
-- **Voice:** bench-testing a Seeed **reSpeaker Flex** (XVF3800). All of Beetle's audio will play *through it* so echo cancellation
-  works. Direction-of-arrival is shown on a 16-LED ring as a stand-in for "turn to look."
+- **Voice:** a working, fully offline prototype → [`ros2_ws/src/betl_voice`](ros2_ws/src/betl_voice/). It needs no cloud, so it
+  works in China without a VPN. Say "Hey Beetle" and the LED dot glides toward you. "Beetle, please translate…" goes
+  English ↔ Chinese out loud. "**Stop**" works mid-sentence with no wake word and latches `/betl/estop`. It can also save and
+  search notes and use an optional small local LLM. All audio plays *through* the reSpeaker Flex, so its echo canceller
+  can ignore Beetle's own voice.
+
+```mermaid
+flowchart LR
+    classDef hw fill:#2a2410,stroke:#ffb000,color:#ffe2a0
+    classDef node fill:#1f2a1f,stroke:#3fbf5a,color:#d6f5dc
+    classDef safety fill:#3a1414,stroke:#e05050,color:#ffd0d0
+    MIC["reSpeaker Flex<br/>XVF3800 mics"]:::hw -- "USB audio" --> L["listener_node<br/>wake word · VAD · SenseVoice ASR"]:::node
+    MIC -- "USB control<br/>direction of arrival" --> R["respeaker_node"]:::node
+    L -- command --> B["brain_node<br/>router · translator · notes · chat"]:::node
+    B -- say --> T["tts_node<br/>robot / LPC voice"]:::node
+    T -- "USB audio<br/>(echo-cancel reference)" --> SPK["Flex amp → speaker"]:::hw
+    R -- "doa · wake_direction" --> LED["led_node → RP2350<br/>16-LED ring"]:::node
+    B -- state --> LED
+    L -- stop --> B
+    B -- "/betl/estop<br/>latched + 5 Hz heartbeat" --> DRV["drive node<br/>(to be wired)"]:::safety
+```
+
+  Under the hood: sherpa-onnx for keyword spotting, VAD and bilingual SenseVoice ASR, Argos (OPUS-MT) for translation,
+  and Piper/espeak voices with an optional 10-pole, 8 kHz **Speak & Spell LPC** re-synthesis. `scripts/betl_doctor.py`
+  checks the whole chain before a demo. Still to do: mount it in the shell and have the drive node obey `/betl/estop`.
 - **Eyes:** moving from the low-res LED ring prototype to a tight-pitch square grid in each dome. A Pico renders the layer stack
   (googly physics → gaze → lids → blink → glyph), and the X5 only sends expression, gaze and a heartbeat.
 - **Shell:** green translucent acrylic and smoked-grey eyes, lived-in cyberpunk. It still has to come apart for a flight.

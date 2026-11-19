@@ -1,0 +1,69 @@
+# BETL voice settings. Edit, then relaunch (no rebuild needed if you built with --symlink-install).
+
+/**:
+  ros__parameters:
+    models_dir: "~/betl_models"          # where scripts/download_models.sh put everything
+
+/betl/respeaker:
+  ros__parameters:
+    poll_hz: 20.0
+    wake_window_s: 1.5                   # how far back to look for the wake word's direction
+
+/betl/listener:
+  ros__parameters:
+    wake_phrases: ["BEETLE", "BEEDLE", "HEY BEETLE"]   # spelling variants help with a flapped "t"
+    stop_phrases: ["STOP", "STOP STOP", "BEETLE STOP"]   # heard any time, no wake word needed
+    stop_threshold: 0.06                 # more sensitive than the wake word on purpose
+    stop_score: 3.0
+    kws_threshold: 0.12                  # lower = triggers more easily (more false wakes)
+    kws_score: 2.0                       # higher = favours the wake phrases more
+    threads: 2
+    asr_precision: "fp32"                # the int8 version of the small bilingual model drops words
+    endpoint_silence_s: 1.0              # pause length that ends a command
+    command_timeout_s: 8.0               # longest command
+    no_speech_timeout_s: 4.0             # give up if nothing is said after the wake word
+    input_device: ""                     # empty = auto-find the reSpeaker
+    input_channel: 0                     # 0 = XVF3800 processed (beamformed) channel
+    ignore_wake_while_speaking: true
+
+/betl/brain:
+  ros__parameters:
+    translate_threads: 2
+    notes_file: "~/betl_notes/notes.md"  # "save a note" appends here
+    knowledge_dir: "~/betl_knowledge"    # drop .md / .txt files here (agenda, wiki pages...)
+    recall_min_score: 2.0                # how relevant a passage must be to be used
+    llm_url: "http://127.0.0.1:8080"     # llama-server (launch with llm:=true)
+    llm_timeout_s: 25.0
+    llm_max_tokens: 90
+
+/betl/tts:
+  ros__parameters:
+    # A voice is either "espeak:<voice>" or a Piper model folder in models_dir.
+    en_voice: "espeak:en-us+klatt"       # retro DECtalk-style. Piper option: "vits-piper-en_US-ryan-low"
+    zh_voice: "vits-piper-zh_CN-huayan-medium"        # clear Chinese voice (used at start-up)
+    zh_voice_alt: "espeak:cmn-latn-pinyin+klatt"      # robot Chinese voice; "Beetle, switch voices" toggles
+    en_style: "clean"                    # clean | lpc (Speak & Spell effect) | simple (bit-crushed)
+    zh_style: "clean"
+    espeak_pitch: 30                     # 0-99 (espeak default 50); lower = deeper
+    espeak_wpm: 145                      # English speaking rate, words per minute
+    espeak_zh_wpm: 130                   # Mandarin rate (slower is easier to follow)
+    speed: 1.0                           # extra speed factor for English (Piper or espeak)
+    pitch: 1.0                           # the rest only matter with en_style: lpc
+    monotone: 0.25
+    breath: 0.0
+    volume: 0.8
+    output_device: ""                    # empty = the reSpeaker (needed for echo cancelling)
+    threads: 2
+
+/betl/led:
+  ros__parameters:
+    port: "auto"                         # auto = first Raspberry Pi USB serial device
+    num_leds: 16
+    led0_deg: 0.0                        # reSpeaker DoA angle that LED 0 points at
+    reverse: false                       # flip if the dot moves the wrong way round
+    home_deg: 0.0
+    brightness: 120
+    noise_db: -45.0
+    noise_full_db: -20.0
+    noise_rate_hz: 12.0
+    mute_noise_while_speaking: true

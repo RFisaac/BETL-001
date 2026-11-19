@@ -1,0 +1,10 @@
+# Lets a normal user read the reSpeaker Flex control interface (direction of arrival) and talk
+# to the RP2350 LED ring without sudo.
+#   sudo cp 99-betl.rules /etc/udev/rules.d/ && sudo udevadm control --reload && sudo udevadm trigger
+# then unplug/replug both devices.
+
+# Seeed reSpeaker (XMOS XVF3800) - USB control transfers via pyusb
+SUBSYSTEM=="usb", ATTRS{idVendor}=="2886", MODE="0666"
+
+# Raspberry Pi RP2040/RP2350 boards running MicroPython - USB serial
+SUBSYSTEM=="tty", ATTRS{idVendor}=="2e8a", MODE="0666", SYMLINK+="betl_ring"

@@ -28,6 +28,7 @@
 | **Drivetrain** | Mecanum on four 24 V hoverboard hub motors, trailing-arm shock suspension on every wheel, 4× Flipsky ODESC V4.2 |
 | **Brain** | RDK X5 (8 GB), ROS 2 Humble / TogetheROS.Bot, systemd bringup |
 | **Driving** | Teleop from a Steam Deck over UDP, with strafe, diagonals and a "crab-lock" button |
+| **Voice** | Offline wake word, English ↔ Chinese translator, voice "stop" and a Speak & Spell voice, on the bench → [`betl_voice`](ros2_ws/src/betl_voice/) |
 | **Autonomy** | None running. The Stage 3 dead-reckoning and 3D-scan stack is [parked, not deleted](docs/architecture.md) |
 | **Shape** | Partly disassembled after a conference trip. It's being rebuilt with eyes, voice and a shell for **Maker Faire Shenzhen** (early Dec 2026) |
 
@@ -103,7 +104,7 @@ flowchart LR
 
 Here's the pre-Shenzhen sprint, in priority order. The full reasoning is in [`docs/whats-next.md`](docs/whats-next.md).
 
-1. 👀 **Eyes**: a square LED grid in each dome, with googly physics and blinks · 🗣️ **Voice** on a reSpeaker Flex · 🐞 **Finish the shell**
+1. 👀 **Eyes**: a square LED grid in each dome, with googly physics and blinks · 🗣️ **Voice** on a reSpeaker Flex (prototype working → [`betl_voice`](ros2_ws/src/betl_voice/)) · 🐞 **Finish the shell**
 2. 🧲 **AS5047P encoder mounts** for the mecanum wheels and suspension, so the drives get real closed-loop velocity
 3. 🔋 **Power front end**: hot-swap any brand of battery, and a battery gauge that actually reads the battery
 4. 🚶 **Follow-me** with voice and gesture commands, as the first real autonomy
@@ -118,7 +119,7 @@ plus one colcon package.
 nodes/        Robot-side ROS 2 nodes: drive, odometry, lidar accumulation, bringup, agent
 tools/        Run on the Steam Deck or a laptop: teleop, tuner, robot discovery
 console/      Browser telemetry/tuning console + the amber CRT HUD
-ros2_ws/      scan_stage, the spinning-lidar stage (the one real colcon package)
+ros2_ws/src/  colcon packages: betl_voice (offline voice + translator) and scan_stage (lidar stage)
 systemd/      beetle-agent.service, always-on discovery + console + supervised bringup
 bench/ logs/  Raw Stage 3 benchmark captures
 docs/         Architecture, calibration, deploy, failure log, ODESC reference
