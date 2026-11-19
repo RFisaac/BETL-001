@@ -14,13 +14,13 @@ Participant entry for the [Robotics Dream Keeper Challenge](https://github.com/D
 
 - Flashed a supported RDK X5 OS image using **RDK Studio**.
 - Board boots to a normal login prompt and accepts SSH connections.
-- **Note on evidence:** a screenshot of the flash-success screen itself was not captured. However, the board connecting in RDK Studio ([screenshot](./media/stage1/rdkstudio_connection.png)) and the live SSH/network session below are only possible after a successful flash and boot.
+- **Note on evidence:** a screenshot of the flash-success screen itself was not captured. However, the board connecting in RDK Studio ([screenshot](../../media/stage1/rdkstudio_connection.png)) and the live SSH/network session below are only possible after a successful flash and boot.
 
 ### 2. Network connectivity
 
 - Configured Wi-Fi via RDK Studio's Connect Device flow; board obtained IP `192.168.128.10`.
 - Verified public internet reach and DNS resolution from the board (ping + DNS lookup).
-- Evidence: [dns_resolution.png](./media/stage1/dns_resolution.png)
+- Evidence: [dns_resolution.png](../../media/stage1/dns_resolution.png)
 
 ### 3. SSH login
 
@@ -31,14 +31,14 @@ ssh root@192.168.128.10
 uname -a
 ```
 
-- Evidence: terminal session in [dns_resolution.png](./media/stage1/dns_resolution.png) and connection details in [rdkstudio_connection.png](./media/stage1/rdkstudio_connection.png)
+- Evidence: terminal session in [dns_resolution.png](../../media/stage1/dns_resolution.png) and connection details in [rdkstudio_connection.png](../../media/stage1/rdkstudio_connection.png)
 
 ### 4. Sensor — stereo depth camera
 
 - **Hardware:** D-Robotics **GS130W MIPI stereo camera module** (dual SC132GS global-shutter sensors), factory stereo calibration in onboard EEPROM (~80 mm baseline).
 - **Interface:** **MIPI CSI**, dual-lane (one sensor per lane); sensors enumerate on **I2C** at `0x32` / `0x33` (buses 4 and 6). Driven through the `hobot_mipi_cam` / `hobot_stereonet` ROS 2 packages.
 - Ran on-device stereo depth estimation: **DStereoV2.4_int16** (IGEV-based), BPU-accelerated, **~14.6 fps at ~95–100% BPU utilization**. Output is the colorized depth map served over the web preview (distance overlay visible in the screenshot).
-- Evidence: [depthmap.png](./media/stage1/depthmap.png)
+- Evidence: [depthmap.png](../../media/stage1/depthmap.png)
 
 Run:
 
@@ -56,7 +56,7 @@ bash run_stereo.sh
 - Ran **YOLOv8n** (nano, COCO 80-class) object detection on the X5 **BPU** (not on PC), fed live from the stereo camera's left eye.
 - **Model:** the stock pre-installed `.bin` shipped on the board — `/opt/hobot/model/x5/basic/yolov8_640x640_nv12.bin` (self-reports as `yolov8n_640x640_nv12`), 640×640 NV12 input. Run via the `dnn_node_example` ROS 2 package (no separate model zoo checkout).
 - Observable output: annotated frames with bounding boxes and class labels (`person` detected).
-- Evidence: [yolo_detection.jpeg](./media/stage1/yolo_detection.jpeg)
+- Evidence: [yolo_detection.jpeg](../../media/stage1/yolo_detection.jpeg)
 
 Run:
 
@@ -100,10 +100,10 @@ ros2 run dnn_node_example example --ros-args \
 
 | File | Shows |
 |---|---|
-| [media/stage1/rdkstudio_connection.png](./media/stage1/rdkstudio_connection.png) | RDK Studio connected to board (post-flash), IP/user/port |
-| [media/stage1/dns_resolution.png](./media/stage1/dns_resolution.png) | SSH session, network + DNS verification |
-| [media/stage1/depthmap.png](./media/stage1/depthmap.png) | Stereo depth map (sensor evidence) |
-| [media/stage1/yolo_detection.jpeg](./media/stage1/yolo_detection.jpeg) | YOLOv8n detection running on-device |
+| [media/stage1/rdkstudio_connection.png](../../media/stage1/rdkstudio_connection.png) | RDK Studio connected to board (post-flash), IP/user/port |
+| [media/stage1/dns_resolution.png](../../media/stage1/dns_resolution.png) | SSH session, network + DNS verification |
+| [media/stage1/depthmap.png](../../media/stage1/depthmap.png) | Stereo depth map (sensor evidence) |
+| [media/stage1/yolo_detection.jpeg](../../media/stage1/yolo_detection.jpeg) | YOLOv8n detection running on-device |
 
 ---
 
