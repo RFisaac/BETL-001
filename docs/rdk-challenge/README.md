@@ -3,7 +3,7 @@
 BETL-001 started as an entry in D-Robotics' **Robotics Dream Keeper Challenge** (2026). The challenge is over,
 and these documents are kept as the frozen record of that build. They are **not updated** to match the robot today.
 
-**The exact repository as submitted for Stage 3** is preserved under the git tag
+**The exact repository as submitted for Stage 3** is preserved on the frozen branch
 [`rdk-challenge-stage3`](https://github.com/RFisaac/BETL-001/tree/rdk-challenge-stage3).
 Links in the original submission still resolve there.
 
